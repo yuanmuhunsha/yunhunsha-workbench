@@ -11,713 +11,514 @@
 <title>云婚纱管家</title>
 <style>
 :root {
-  --bg: #faf5f0;
-  --card: #ffffff;
-  --card-hover: #fdf9f5;
-  --text: #3d2e24;
-  --text2: #8b7355;
-  --text3: #b8a088;
-  --primary: #d4a574;
-  --primary-deep: #b8864e;
-  --primary-light: #f5e6d8;
-  --primary-ghost: #fdf5ed;
-  --danger: #e07c6e;
-  --danger-light: #fef0ee;
-  --success: #7eb896;
-  --success-light: #edf7f0;
-  --info: #7ea8c4;
-  --info-light: #edf4f8;
-  --warning: #d4a574;
-  --warning-light: #fdf5ed;
+  --bg: #faf5f0; --card: #ffffff;
+  --text: #3d2e24; --text2: #8b7355; --text3: #b8a088;
+  --primary: #d4a574; --primary-deep: #b8864e;
+  --primary-light: #f5e6d8; --primary-ghost: #fdf5ed;
+  --danger: #d4726a; --danger-light: #fef0ee;
+  --success: #7eb896; --success-light: #edf7f0;
+  --info: #7ea8c4; --info-light: #edf4f8;
+  --warning: #d4a574; --warning-light: #fdf5ed;
   --border: #f0e8dc;
   --shadow: 0 2px 16px rgba(180,150,120,0.08);
-  --shadow-lg: 0 8px 32px rgba(180,150,120,0.12);
-  --radius: 16px;
-  --radius-sm: 10px;
-  --radius-xs: 8px;
-  --nav-h: 64px;
-  --bottom-h: 72px;
+  --radius: 16px; --radius-sm: 10px; --radius-xs: 8px;
+  --bottom-h: 64px;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --font: "PingFang SC","SF Pro Display","Helvetica Neue",sans-serif;
 }
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-html { font-size: 16px; }
+html { font-size:16px; }
 body {
-  font-family: var(--font);
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  padding-bottom: calc(var(--bottom-h) + var(--safe-bottom) + 12px);
-  user-select: none;
-  -webkit-user-select: none;
+  font-family:var(--font); background:var(--bg); color:var(--text);
+  min-height:100vh; min-height:-webkit-fill-available; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:calc(var(--bottom-h) + var(--safe-bottom) + 8px);
+  user-select:none; -webkit-user-select:none;
+  max-width:480px; margin:0 auto;
+  box-shadow:0 0 60px rgba(0,0,0,0.05);
 }
-
-/* ====== NAV BAR ====== */
+/* NAV */
 .nav-bar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(250,245,240,0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid transparent;
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,245,240,0.88); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  padding:10px 16px; display:flex; align-items:center; justify-content:space-between;
+  border-bottom:1px solid var(--border);
 }
-.nav-bar.scrolled { border-bottom-color: var(--border); }
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+.nav-logo { display:flex; align-items:center; gap:8px; }
 .nav-logo .icon {
-  width: 38px; height: 38px;
-  background: linear-gradient(135deg, #d4a574, #c08b5c);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(192,139,92,0.3);
+  width:34px; height:34px; background:linear-gradient(135deg,#d4a574,#c08b5c);
+  border-radius:10px; display:flex; align-items:center; justify-content:center;
+  font-size:18px; color:#fff; box-shadow:0 3px 10px rgba(192,139,92,0.25);
 }
-.nav-logo .text { font-size: 18px; font-weight: 700; color: var(--text); }
-.nav-actions { display: flex; gap: 8px; }
+.nav-logo .text { font-size:17px; font-weight:700; color:var(--text); letter-spacing:-0.3px; }
+.nav-actions { display:flex; gap:6px; }
 .nav-btn {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  border: none;
-  background: var(--card);
-  font-size: 16px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(180,150,120,0.08);
-  transition: all 0.2s;
-  color: var(--text2);
+  width:34px; height:34px; border-radius:50%; border:none; background:var(--card);
+  font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 2px 8px rgba(180,150,120,0.06); color:var(--text2); transition:all 0.15s;
 }
-.nav-btn:active { transform: scale(0.92); background: var(--primary-light); }
+.nav-btn:active { transform:scale(0.9); background:var(--primary-light); }
 
-/* ====== TOP STATS ====== */
-.stats-row {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  padding: 8px 16px 16px;
-}
-.stat-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  padding: 16px 18px;
-  box-shadow: var(--shadow);
-  position: relative;
-  overflow: hidden;
-}
-.stat-card::after {
-  content: '';
-  position: absolute;
-  top: -20px; right: -20px;
-  width: 80px; height: 80px;
-  border-radius: 50%;
-  background: var(--primary-ghost);
-  opacity: 0.5;
-}
-.stat-card .stat-label { font-size: 13px; color: var(--text3); margin-bottom: 6px; }
-.stat-card .stat-value { font-size: 26px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
-.stat-card .stat-sub { font-size: 12px; margin-top: 4px; color: var(--text3); }
-.stat-card .stat-sub.up { color: var(--success); }
-.stat-card .stat-sub.warn { color: var(--danger); }
+/* PAGES */
+.page { display:none; animation:fadeIn 0.25s ease; }
+.page.active { display:block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 
-/* ====== QUICK ACTIONS ====== */
-.quick-actions {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  padding: 0 16px 16px;
+/* HOME - Revenue */
+.revenue-row {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:12px 16px;
 }
-.quick-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 14px 8px;
-  background: var(--card);
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  font-family: var(--font);
-  font-size: 12px;
-  color: var(--text2);
-  font-weight: 500;
-  box-shadow: var(--shadow);
-  transition: all 0.2s;
+.revenue-card {
+  background:var(--card); border-radius:var(--radius); padding:14px 12px;
+  text-align:center; box-shadow:var(--shadow);
 }
-.quick-btn:active { transform: scale(0.94); background: var(--primary-ghost); }
-.quick-btn .q-icon {
-  width: 44px; height: 44px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-}
-.quick-btn .q-icon.new { background: #fdf5ed; }
-.quick-btn .q-icon.cal { background: #edf7f0; }
-.quick-btn .q-icon.dress { background: #fdf0f5; }
-.quick-btn .q-icon.money { background: #edf4f8; }
+.revenue-card .r-label { font-size:11px; color:var(--text3); margin-bottom:4px; }
+.revenue-card .r-value { font-size:22px; font-weight:800; color:var(--text); }
+.revenue-card .r-sub { font-size:10px; color:var(--text3); margin-top:2px; }
 
-/* ====== NOTIFICATIONS ====== */
-.notif-card {
-  margin: 0 16px 16px;
-  padding: 14px 16px;
-  background: linear-gradient(135deg, #fef9f3, #fdf5ed);
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 13px;
-  color: var(--text);
-  border: 1px solid var(--primary-light);
-  box-shadow: var(--shadow);
+/* HOME - Func Grid */
+.func-grid {
+  display:grid; grid-template-columns:repeat(5,1fr); gap:8px; padding:0 16px 16px;
 }
-.notif-card .n-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--danger);
-  flex-shrink: 0;
-  animation: pulse 2s infinite;
+.func-item {
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+  padding:8px 2px; background:var(--card); border:none; border-radius:var(--radius-sm);
+  cursor:pointer; font-family:var(--font); font-size:10px; color:var(--text2);
+  font-weight:500; box-shadow:var(--shadow); transition:all 0.15s;
 }
-@keyframes pulse {
-  0%,100% { opacity:1; }
-  50% { opacity:0.4; }
+.func-item:active { transform:scale(0.93); background:var(--primary-ghost); }
+.func-item .f-icon {
+  width:40px; height:40px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center; font-size:20px;
 }
-.notif-card .n-close {
-  margin-left: auto;
-  background: none;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  color: var(--text3);
-  padding: 4px;
-}
+.c1{background:#fdf5ed} .c2{background:#edf7f0} .c3{background:#fdf0f5}
+.c4{background:#edf4f8} .c5{background:#f5f0fa} .c6{background:#fef7ed}
+.c7{background:#f0f7f5} .c8{background:#fef0ee} .c9{background:#f3f0eb}
+.c10{background:#eef5fa}
 
-/* ====== SECTION ====== */
-.section {
-  padding: 0 16px;
-  margin-bottom: 16px;
-}
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-.section-title { font-size: 16px; font-weight: 700; color: var(--text); }
-.section-more { font-size: 13px; color: var(--primary); text-decoration: none; cursor: pointer; }
+/* Section */
+.section { padding:0 16px; margin-bottom:14px; }
+.section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.section-title { font-size:15px; font-weight:700; color:var(--text); }
+.section-more { font-size:12px; color:var(--primary); cursor:pointer; border:none; background:none; font-family:var(--font); }
 
-/* ====== ORDER CARD ====== */
+/* Order Card */
 .order-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-bottom: 10px;
-  box-shadow: var(--shadow);
-  transition: all 0.2s;
+  background:var(--card); border-radius:var(--radius); padding:14px; margin-bottom:8px;
+  box-shadow:var(--shadow); cursor:pointer; transition:all 0.15s;
 }
-.order-card:active { transform: scale(0.98); }
-.order-card .o-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 10px;
-}
-.order-card .o-id { font-size: 13px; color: var(--text3); font-weight: 500; }
-.order-card .o-status {
-  padding: 3px 10px;
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: 600;
-}
-.order-card .o-status.submitted { background: var(--info-light); color: var(--info); }
-.order-card .o-status.completed { background: var(--success-light); color: var(--success); }
-.order-card .o-status.draft { background: #fdf5ed; color: var(--warning); }
-.order-card .o-status.cancelled { background: var(--danger-light); color: var(--danger); }
-.order-card .o-body { display: flex; gap: 14px; align-items: center; }
+.order-card:active { transform:scale(0.98); }
+.order-card .o-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.order-card .o-id { font-size:12px; color:var(--text3); font-weight:500; }
+.order-card .o-status { padding:2px 8px; border-radius:10px; font-size:10px; font-weight:600; }
+.o-status.submitted{background:var(--info-light);color:var(--info)}
+.o-status.completed{background:var(--success-light);color:var(--success)}
+.o-status.draft{background:#fdf5ed;color:var(--warning)}
+.o-status.cancelled{background:var(--danger-light);color:var(--danger)}
+.order-card .o-body { display:flex; gap:12px; align-items:center; }
 .order-card .o-avatar {
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #f5e6d8, #e8d0b8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
+  width:44px; height:44px; border-radius:50%;
+  background:linear-gradient(135deg,#f5e6d8,#e8d0b8);
+  display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0;
 }
-.order-card .o-info { flex: 1; min-width: 0; }
-.order-card .o-name { font-size: 15px; font-weight: 700; color: var(--text); }
-.order-card .o-meta { font-size: 12px; color: var(--text3); margin-top: 3px; display: flex; gap: 10px; flex-wrap: wrap; }
-.order-card .o-right { text-align: right; flex-shrink: 0; }
-.order-card .o-price { font-size: 18px; font-weight: 800; color: var(--text); }
-.order-card .o-unpaid { font-size: 11px; color: var(--danger); margin-top: 2px; }
+.order-card .o-info { flex:1; min-width:0; }
+.order-card .o-name { font-size:14px; font-weight:700; }
+.order-card .o-meta { font-size:11px; color:var(--text3); margin-top:2px; display:flex; gap:8px; flex-wrap:wrap; }
+.order-card .o-right { text-align:right; flex-shrink:0; }
+.order-card .o-price { font-size:17px; font-weight:800; }
+.order-card .o-unpaid { font-size:10px; color:var(--danger); margin-top:2px; }
 .order-card .o-bottom {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid var(--border);
+  display:flex; gap:6px; margin-top:10px; padding-top:10px;
+  border-top:1px solid var(--border); flex-wrap:wrap;
 }
-.order-card .o-tag {
-  font-size: 11px;
-  padding: 3px 10px;
-  border-radius: 8px;
-  background: var(--bg);
-  color: var(--text3);
-}
-.order-card .o-items { font-size: 12px; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.order-card .o-tag { font-size:10px; padding:2px 8px; border-radius:6px; background:var(--bg); color:var(--text3); }
 
-/* ====== ITEM GRID ====== */
-.item-scroll {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 4px;
+/* Search */
+.search-bar { display:flex; gap:8px; padding:8px 16px 10px; }
+.search-bar input {
+  flex:1; padding:10px 14px 10px 34px;
+  border:1.5px solid var(--border); border-radius:22px; font-size:14px;
+  font-family:var(--font); color:var(--text);
+  background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23b8a088' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") 12px center no-repeat;
 }
-.item-scroll::-webkit-scrollbar { display: none; }
-.item-card {
-  min-width: 160px;
-  background: var(--card);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  scroll-snap-align: start;
-  flex-shrink: 0;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.item-card:active { transform: scale(0.96); }
-.item-card .img-box {
-  height: 140px;
-  background: linear-gradient(135deg, #fdf5ed, #f5e6d8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 48px;
-  position: relative;
-}
-.item-card .img-box .badge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 3px 10px;
-  border-radius: 10px;
-  font-size: 10px;
-  font-weight: 600;
-}
-.item-card .img-box .badge.available { background: var(--success-light); color: var(--success); }
-.item-card .img-box .badge.booked { background: var(--danger-light); color: var(--danger); }
-.item-card .info { padding: 12px; }
-.item-card .info .name { font-size: 14px; font-weight: 700; color: var(--text); }
-.item-card .info .meta { font-size: 11px; color: var(--text3); margin-top: 3px; }
-.item-card .info .price { font-size: 15px; font-weight: 800; color: var(--primary-deep); margin-top: 4px; }
-.item-card.booked { opacity: 0.5; }
+.search-bar input:focus { outline:none; border-color:var(--primary); }
 
-/* ====== TAB BAR ====== */
+/* Filter Chips */
+.filter-chips {
+  display:flex; gap:6px; overflow-x:auto; padding:0 16px 10px;
+  -webkit-overflow-scrolling:touch;
+}
+.filter-chips::-webkit-scrollbar{display:none}
+.chip {
+  padding:6px 14px; border-radius:18px; font-size:12px; font-weight:500;
+  white-space:nowrap; border:1.5px solid var(--border); background:var(--card);
+  color:var(--text2); cursor:pointer; transition:all 0.15s; font-family:var(--font);
+}
+.chip.active { background:var(--primary-ghost); border-color:var(--primary); color:var(--primary-deep); font-weight:600; }
+.chip:active { transform:scale(0.95); }
+
+/* Modal Overlay */
+.modal-overlay {
+  display:none; position:fixed; inset:0; z-index:500;
+  background:rgba(40,25,15,0.35); backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px);
+}
+.modal-overlay.active { display:flex; align-items:flex-end; justify-content:center; }
+.modal {
+  background:#fff; border-radius:20px 20px 0 0; width:100%; max-width:480px;
+  max-height:92vh; overflow-y:auto; box-shadow:0 -8px 40px rgba(0,0,0,0.12);
+  animation:slideUp 0.3s ease;
+}
+@keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+.modal-handle { width:36px; height:4px; background:#e0d5c8; border-radius:2px; margin:10px auto 0; }
+.modal-header {
+  padding:10px 16px 12px; display:flex; align-items:center; justify-content:space-between;
+  border-bottom:1px solid var(--border);
+}
+.modal-header h3 { font-size:16px; font-weight:700; }
+.modal-close {
+  width:28px; height:28px; border-radius:50%; background:#f5f0ea; border:none;
+  font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  color:var(--text3);
+}
+.modal-body { padding:14px 16px; }
+.modal-footer {
+  padding:12px 16px; display:flex; gap:10px; border-top:1px solid var(--border);
+  position:sticky; bottom:0; background:#fff;
+}
+.modal-footer .btn { flex:1; }
+
+/* Form */
+.form-group { margin-bottom:12px; }
+.form-group label { display:block; font-size:12px; font-weight:600; color:var(--text2); margin-bottom:4px; }
+.form-group input, .form-group select, .form-group textarea {
+  width:100%; padding:10px 12px; border:1.5px solid var(--border); border-radius:var(--radius-xs);
+  font-size:14px; font-family:var(--font); color:var(--text); background:#fdfbf8;
+  transition:all 0.2s; -webkit-appearance:none;
+}
+.form-group input:focus, .form-group select:focus { outline:none; border-color:var(--primary); background:#fff; }
+.form-group select { appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23b8a088' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; padding-right:32px; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.form-inline { display:flex; gap:8px; align-items:flex-end; }
+
+/* Image Upload */
+.img-upload-area {
+  border:2px dashed var(--border); border-radius:var(--radius-sm);
+  padding:20px; text-align:center; cursor:pointer; transition:all 0.2s;
+  background:#fdfbf8; position:relative; min-height:120px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.img-upload-area:hover, .img-upload-area.dragover { border-color:var(--primary); background:var(--primary-ghost); }
+.img-upload-area img {
+  max-width:100%; max-height:200px; border-radius:var(--radius-xs); object-fit:contain;
+}
+.img-upload-area .img-placeholder { font-size:36px; color:var(--text3); margin-bottom:4px; }
+.img-upload-area .img-hint { font-size:12px; color:var(--text3); }
+.img-upload-area .img-actions {
+  display:flex; gap:6px; margin-top:8px;
+}
+.img-upload-area input[type=file] { display:none; }
+
+/* Dress Selection Panel */
+.dress-panel-overlay {
+  display:none; position:fixed; inset:0; z-index:600;
+  background:rgba(40,25,15,0.35); backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px);
+}
+.dress-panel-overlay.active { display:flex; align-items:flex-end; justify-content:center; }
+.dress-panel {
+  background:#fff; border-radius:20px 20px 0 0; width:100%; max-width:480px;
+  height:88vh; display:flex; flex-direction:column;
+  box-shadow:0 -8px 40px rgba(0,0,0,0.12); animation:slideUp 0.3s ease;
+}
+.dress-panel-header {
+  padding:10px 16px; display:flex; align-items:center; justify-content:space-between;
+  border-bottom:1px solid var(--border); flex-shrink:0;
+}
+.dress-panel-body { display:flex; flex:1; overflow:hidden; }
+.dress-cats {
+  width:68px; flex-shrink:0; overflow-y:auto;
+  background:#fdfbf8; border-right:1px solid var(--border); padding:4px 0;
+}
+.dress-cat-item {
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+  padding:10px 2px; cursor:pointer; font-size:10px; color:var(--text3);
+  transition:all 0.15s; border:none; background:transparent; font-family:var(--font); width:100%;
+}
+.dress-cat-item.active { color:var(--primary-deep); font-weight:600; background:var(--primary-ghost); }
+.dress-cat-item .dc-icon { font-size:20px; }
+.dress-main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+.dress-subcats {
+  display:flex; gap:6px; overflow-x:auto; padding:8px 10px;
+  flex-shrink:0; -webkit-overflow-scrolling:touch;
+}
+.dress-subcats::-webkit-scrollbar{display:none}
+.dress-subcat {
+  padding:4px 10px; border-radius:12px; font-size:10px; font-weight:500;
+  white-space:nowrap; border:1.5px solid var(--border); background:var(--card);
+  color:var(--text2); cursor:pointer; transition:all 0.15s; font-family:var(--font);
+}
+.dress-subcat.active { background:var(--primary-ghost); border-color:var(--primary); color:var(--primary-deep); font-weight:600; }
+.dress-grid {
+  flex:1; overflow-y:auto; padding:6px 8px;
+  display:grid; grid-template-columns:repeat(3,1fr); gap:6px; align-content:start;
+}
+.dress-card {
+  background:var(--card); border-radius:var(--radius-sm); overflow:hidden;
+  box-shadow:0 1px 6px rgba(180,150,120,0.06); cursor:pointer; transition:all 0.15s;
+}
+.dress-card:active { transform:scale(0.95); }
+.dress-card .dc-img {
+  aspect-ratio:3/4; position:relative; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+}
+.dress-card .dc-img img { width:100%; height:100%; object-fit:cover; }
+.dress-card .dc-img .dc-placeholder {
+  font-size:32px; width:100%; height:100%;
+  display:flex; align-items:center; justify-content:center;
+}
+.dress-card .dc-img.c1{background:linear-gradient(135deg,#fdf5ed,#f5e6d8)}
+.dress-card .dc-img.c2{background:linear-gradient(135deg,#fdf0f5,#fce4ec)}
+.dress-card .dc-img.c3{background:linear-gradient(135deg,#edf4f8,#e3f2fd)}
+.dress-card .dc-img.c4{background:linear-gradient(135deg,#f5f0fa,#ede7f6)}
+.dress-card .dc-badge {
+  position:absolute; top:4px; right:4px;
+  padding:2px 6px; border-radius:4px; font-size:9px; font-weight:600;
+}
+.dc-badge.ok{background:var(--success-light);color:var(--success)}
+.dc-badge.no{background:var(--danger-light);color:var(--danger)}
+.dc-badge.dbl{background:#fef7ed;color:#e0a050}
+.dress-card .dc-info { padding:6px 8px; }
+.dress-card .dc-name { font-size:11px; font-weight:600; line-height:1.3; }
+.dress-card .dc-price { font-size:10px; color:var(--primary-deep); font-weight:700; margin-top:2px; }
+
+/* Detail Panel */
+.detail-overlay {
+  display:none; position:fixed; inset:0; z-index:700;
+  background:rgba(40,25,15,0.4); backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px);
+}
+.detail-overlay.active { display:flex; align-items:flex-end; justify-content:center; }
+.detail-panel {
+  background:#fff; border-radius:20px 20px 0 0; width:100%; max-width:480px;
+  max-height:85vh; overflow-y:auto; box-shadow:0 -8px 40px rgba(0,0,0,0.12);
+  animation:slideUp 0.3s ease;
+}
+.detail-img {
+  width:100%; aspect-ratio:3/4; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+}
+.detail-img img { width:100%; height:100%; object-fit:cover; }
+.detail-img.c1{background:linear-gradient(135deg,#fdf5ed,#f5e6d8)}
+.detail-img.c2{background:linear-gradient(135deg,#fdf0f5,#fce4ec)}
+.detail-img.c3{background:linear-gradient(135deg,#edf4f8,#e3f2fd)}
+.detail-img.c4{background:linear-gradient(135deg,#f5f0fa,#ede7f6)}
+.detail-body { padding:14px 16px; }
+.detail-body h3 { font-size:17px; font-weight:700; margin-bottom:2px; }
+.detail-body .detail-meta { font-size:11px; color:var(--text3); margin-bottom:10px; }
+.detail-body .detail-price { font-size:20px; font-weight:800; color:var(--primary-deep); margin-bottom:14px; }
+.detail-body .detail-section { margin-bottom:12px; }
+.detail-body .detail-section .ds-title { font-size:12px; font-weight:600; color:var(--text2); margin-bottom:6px; }
+.size-options { display:flex; gap:6px; flex-wrap:wrap; }
+.size-opt {
+  padding:6px 14px; border-radius:var(--radius-xs); font-size:12px; font-weight:600;
+  border:1.5px solid var(--border); background:var(--card); color:var(--text2);
+  cursor:pointer; transition:all 0.15s; font-family:var(--font);
+  display:flex; flex-direction:column; align-items:center; gap:1px;
+}
+.size-opt .sz-stock { font-size:9px; font-weight:400; color:var(--text3); }
+.size-opt.active { border-color:var(--primary); background:var(--primary-ghost); color:var(--primary-deep); }
+.size-opt.disabled { opacity:0.35; pointer-events:none; }
+.detail-footer {
+  padding:12px 16px; display:flex; gap:8px;
+  border-top:1px solid var(--border); position:sticky; bottom:0; background:#fff;
+}
+
+/* Calendar */
+.cal-header {
+  display:flex; align-items:center; justify-content:space-between; padding:8px 16px;
+}
+.cal-header .month { font-size:16px; font-weight:700; }
+.cal-header button {
+  width:30px; height:30px; border-radius:50%; border:none;
+  background:var(--card); cursor:pointer; font-size:15px; color:var(--text2); box-shadow:var(--shadow);
+}
+.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; text-align:center; padding:0 12px; }
+.cal-grid .dow { font-size:11px; color:var(--text3); padding:5px 0; font-weight:600; }
+.cal-grid .day {
+  aspect-ratio:1; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; border-radius:10px; font-size:13px; font-weight:600;
+  color:var(--text); cursor:pointer; transition:all 0.15s; position:relative;
+}
+.cal-grid .day:active{transform:scale(0.9)}
+.cal-grid .day.today{background:var(--primary);color:#fff}
+.cal-grid .day.busy::after{content:'';position:absolute;bottom:3px;width:4px;height:4px;border-radius:50%;background:var(--danger)}
+.cal-grid .day.empty{pointer-events:none}
+.cal-grid .day.has-order{background:var(--primary-ghost);font-weight:700}
+
+/* Inventory Items */
+.inv-scroll {
+  display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch; padding-bottom:4px;
+}
+.inv-scroll::-webkit-scrollbar{display:none}
+.inv-card {
+  min-width:150px; background:var(--card); border-radius:var(--radius);
+  overflow:hidden; box-shadow:var(--shadow); scroll-snap-align:start;
+  flex-shrink:0; cursor:pointer; transition:all 0.15s;
+}
+.inv-card:active{transform:scale(0.96)}
+.inv-card .img-box {
+  height:130px; position:relative; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+}
+.inv-card .img-box img { width:100%; height:100%; object-fit:cover; }
+.inv-card .img-box .img-placeholder { font-size:36px; }
+.inv-card .img-box.c1{background:linear-gradient(135deg,#fdf5ed,#f5e6d8)}
+.inv-card .img-box.c2{background:linear-gradient(135deg,#fdf0f5,#fce4ec)}
+.inv-card .img-box.c3{background:linear-gradient(135deg,#edf4f8,#e3f2fd)}
+.inv-card .img-box.c4{background:linear-gradient(135deg,#f5f0fa,#ede7f6)}
+.inv-card .img-box .badge {
+  position:absolute; top:8px; right:8px; padding:2px 8px;
+  border-radius:8px; font-size:9px; font-weight:600;
+}
+.badge.available{background:var(--success-light);color:var(--success)}
+.badge.booked{background:var(--danger-light);color:var(--danger)}
+.inv-card .info { padding:10px 12px; }
+.inv-card .info .name { font-size:13px; font-weight:700; }
+.inv-card .info .meta { font-size:10px; color:var(--text3); margin-top:2px; }
+.inv-card .info .price { font-size:14px; font-weight:800; color:var(--primary-deep); margin-top:3px; }
+.inv-card.booked{opacity:0.5}
+
+/* Finance List */
+.list-item {
+  display:flex; align-items:center; gap:10px;
+  padding:12px 14px; background:var(--card); margin-bottom:6px;
+  border-radius:var(--radius-sm); box-shadow:var(--shadow);
+  cursor:pointer; transition:all 0.15s;
+}
+.list-item:active{transform:scale(0.98)}
+.list-item .l-avatar {
+  width:36px; height:36px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; font-size:16px;
+}
+.list-item .l-info{flex:1;min-width:0}
+.list-item .l-name{font-size:13px;font-weight:600}
+.list-item .l-meta{font-size:11px;color:var(--text3);margin-top:1px}
+.list-item .l-right{text-align:right;flex-shrink:0}
+.list-item .l-amount{font-size:15px;font-weight:700}
+
+/* Settings */
+.settings-item {
+  display:flex; align-items:center; gap:10px;
+  padding:12px 14px; background:var(--card); margin-bottom:6px;
+  border-radius:var(--radius-sm); box-shadow:var(--shadow);
+  cursor:pointer; transition:all 0.15s;
+}
+.settings-item:active{transform:scale(0.98)}
+.settings-item .si-icon {
+  width:36px; height:36px; border-radius:10px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; font-size:18px;
+}
+.settings-item .si-info{flex:1}
+.settings-item .si-name{font-size:14px;font-weight:600}
+.settings-item .si-meta{font-size:11px;color:var(--text3);margin-top:1px}
+
+/* Buttons */
+.btn {
+  padding:11px 18px; border-radius:var(--radius-xs); border:none;
+  font-size:14px; font-weight:600; font-family:var(--font);
+  cursor:pointer; transition:all 0.15s; text-align:center;
+}
+.btn:active{transform:scale(0.96)}
+.btn-primary{background:linear-gradient(135deg,#d4a574,#c08b5c);color:#fff;box-shadow:0 3px 12px rgba(192,139,92,0.25)}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-outline{background:#fff;color:var(--primary-deep);border:1.5px solid var(--primary-light)}
+.btn-sm{padding:7px 12px;font-size:12px;border-radius:var(--radius-xs)}
+.btn-block{display:block;width:100%}
+
+/* Empty */
+.empty-state{text-align:center;padding:30px 16px;color:var(--text3)}
+.empty-state .e-icon{font-size:40px;margin-bottom:8px}
+.empty-state .e-text{font-size:13px}
+
+/* Toast */
+.toast {
+  position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:999;
+  padding:12px 24px; border-radius:24px; background:#3d2e24; color:#fff;
+  font-size:14px; font-weight:600; box-shadow:0 8px 24px rgba(0,0,0,0.2);
+  animation:toastIn 0.3s ease; pointer-events:none;
+}
+@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(-20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* Tab Bar */
 .tab-bar {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  z-index: 200;
-  background: rgba(255,255,255,0.9);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: calc(var(--bottom-h) + var(--safe-bottom));
-  padding-bottom: var(--safe-bottom);
-  border-top: 1px solid var(--border);
-  box-shadow: 0 -2px 16px rgba(180,150,120,0.06);
+  position:fixed; bottom:0; left:0; right:0; z-index:200;
+  background:rgba(255,255,255,0.92); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  display:flex; justify-content:space-around; align-items:center;
+  height:calc(var(--bottom-h) + var(--safe-bottom)); padding-bottom:var(--safe-bottom);
+  border-top:1px solid var(--border); box-shadow:0 -2px 16px rgba(180,150,120,0.06);
 }
 .tab-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: var(--font);
-  font-size: 10px;
-  color: var(--text3);
-  font-weight: 500;
-  padding: 4px 0;
-  transition: all 0.2s;
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+  background:none; border:none; cursor:pointer; font-family:var(--font);
+  font-size:10px; color:var(--text3); font-weight:500; padding:4px 0;
+  transition:all 0.2s;
 }
-.tab-item .t-icon { font-size: 22px; transition: transform 0.2s; }
-.tab-item.active { color: var(--primary-deep); }
-.tab-item.active .t-icon { transform: scale(1.1); }
-.tab-item .t-dot {
-  width: 4px; height: 4px;
-  border-radius: 50%;
-  background: var(--primary);
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-.tab-item.active .t-dot { opacity: 1; }
+.tab-item .t-icon{font-size:20px;transition:transform 0.2s}
+.tab-item.active{color:var(--primary-deep)}
+.tab-item.active .t-icon{transform:scale(1.1)}
+.tab-item .t-dot{width:4px;height:4px;border-radius:50%;background:var(--primary);opacity:0}
+.tab-item.active .t-dot{opacity:1}
 
-/* ====== MODAL ====== */
-.modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 500;
-  background: rgba(40,25,15,0.4);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  align-items: flex-end;
-  justify-content: center;
+/* Order editor - left label style */
+.editor-field {
+  display:flex; align-items:center; gap:8px; margin-bottom:10px;
 }
-.modal-overlay.active { display: flex; }
-.modal {
-  background: #fff;
-  border-radius: 24px 24px 0 0;
-  width: 100%;
-  max-width: 480px;
-  max-height: 88vh;
-  overflow-y: auto;
-  box-shadow: 0 -8px 40px rgba(0,0,0,0.15);
-  animation: slideUp 0.3s ease;
+.editor-field .ef-label {
+  width:56px; flex-shrink:0; font-size:13px; font-weight:600;
+  color:var(--text2); text-align:right;
 }
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+.editor-field .ef-input {
+  flex:1; padding:8px 10px; border:1.5px solid var(--border);
+  border-radius:var(--radius-xs); font-size:13px; font-family:var(--font);
+  color:var(--text); background:#fdfbf8; transition:all 0.2s; -webkit-appearance:none;
 }
-.modal-handle {
-  width: 36px; height: 4px;
-  background: #e0d5c8;
-  border-radius: 2px;
-  margin: 12px auto 0;
-}
-.modal-header {
-  padding: 12px 20px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border);
-}
-.modal-header h3 { font-size: 17px; font-weight: 700; }
-.modal-close {
-  width: 30px; height: 30px;
-  border-radius: 50%;
-  background: #f5f0ea;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text3);
-}
-.modal-body { padding: 20px; }
-.modal-body .step-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--primary-deep);
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.modal-body .step-title .step-num {
-  width: 24px; height: 24px;
-  border-radius: 50%;
-  background: var(--primary-light);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--primary-deep);
-}
-.modal-footer {
-  padding: 14px 20px;
-  display: flex;
-  gap: 10px;
-  border-top: 1px solid var(--border);
-  position: sticky;
-  bottom: 0;
-  background: #fff;
-}
-.modal-footer .btn { flex: 1; }
+.editor-field .ef-input:focus{outline:none;border-color:var(--primary);background:#fff}
+.editor-divider{height:1px;background:var(--border);margin:8px 0 12px}
+.editor-section-title{font-size:12px;font-weight:700;color:var(--primary-deep);margin-bottom:8px;display:flex;align-items:center;gap:4px}
 
-/* ====== FORMS ====== */
-.form-group { margin-bottom: 14px; }
-.form-group label {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text2);
-  margin-bottom: 6px;
+/* Selected items */
+.sel-items-list{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.sel-item-row{
+  display:flex;align-items:center;gap:8px;padding:6px 10px;
+  background:#fdfbf8;border-radius:var(--radius-xs);border:1px solid var(--border);font-size:12px;
 }
-.form-group input, .form-group select, .form-group textarea {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-xs);
-  font-size: 15px;
-  font-family: var(--font);
-  color: var(--text);
-  background: #fdfbf8;
-  transition: all 0.2s;
-  -webkit-appearance: none;
+.sel-item-row .si-thumb{
+  width:36px;height:36px;border-radius:6px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+  background:var(--primary-light);overflow:hidden;
 }
-.form-group input:focus, .form-group select:focus {
-  outline: none;
-  border-color: var(--primary);
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(212,165,116,0.1);
+.sel-item-row .si-thumb img{width:100%;height:100%;object-fit:cover}
+.sel-item-row .si-info{flex:1;min-width:0}
+.sel-item-row .si-name{font-size:12px;font-weight:600}
+.sel-item-row .si-meta{font-size:10px;color:var(--text3)}
+.sel-item-row .si-price{font-size:12px;font-weight:700;color:var(--primary-deep)}
+.sel-item-row .si-remove{
+  width:22px;height:22px;border-radius:50%;border:none;
+  background:#fef0ee;color:var(--danger);cursor:pointer;font-size:10px;
+  display:flex;align-items:center;justify-content:center;
 }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-/* ====== BUTTONS ====== */
-.btn {
-  padding: 12px 20px;
-  border-radius: var(--radius-xs);
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
-  font-family: var(--font);
-  cursor: pointer;
-  transition: all 0.2s;
-  text-align: center;
+.editor-add-item{
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  padding:8px;border:1.5px dashed var(--border);border-radius:var(--radius-xs);
+  font-size:12px;color:var(--primary);cursor:pointer;background:transparent;
+  font-family:var(--font);width:100%;transition:all 0.15s;
 }
-.btn:active { transform: scale(0.96); }
-.btn-primary {
-  background: linear-gradient(135deg, #d4a574, #c08b5c);
-  color: #fff;
-  box-shadow: 0 4px 16px rgba(192,139,92,0.3);
-}
-.btn-outline {
-  background: #fff;
-  color: var(--primary-deep);
-  border: 1.5px solid var(--primary-light);
-}
-.btn-sm { padding: 8px 14px; font-size: 13px; border-radius: var(--radius-xs); }
-.btn-danger { background: var(--danger); color: #fff; }
-
-/* ====== CALENDAR ====== */
-.cal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  margin-bottom: 12px;
-}
-.cal-header .month { font-size: 16px; font-weight: 700; }
-.cal-header button {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  border: none;
-  background: var(--card);
-  cursor: pointer;
-  font-size: 16px;
-  color: var(--text2);
-  box-shadow: var(--shadow);
-}
-.cal-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
-  text-align: center;
-  padding: 0 12px;
-}
-.cal-grid .dow { font-size: 11px; color: var(--text3); padding: 6px 0; font-weight: 600; }
-.cal-grid .day {
-  aspect-ratio: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  cursor: pointer;
-  transition: all 0.15s;
-  position: relative;
-}
-.cal-grid .day:active { transform: scale(0.9); }
-.cal-grid .day.today { background: var(--primary); color: #fff; font-weight: 700; }
-.cal-grid .day.busy::after {
-  content: '';
-  position: absolute;
-  bottom: 4px;
-  width: 4px; height: 4px;
-  border-radius: 50%;
-  background: var(--danger);
-}
-.cal-grid .day.empty { pointer-events: none; }
-
-/* ====== PAGE CONTAINER ====== */
-.page { display: none; animation: fadeIn 0.2s ease; }
-.page.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-
-/* ====== EMPTY STATE ====== */
-.empty-state {
-  text-align: center;
-  padding: 40px 20px;
-  color: var(--text3);
-}
-.empty-state .e-icon { font-size: 48px; margin-bottom: 12px; }
-.empty-state .e-text { font-size: 14px; }
-
-/* ====== FILTER CHIPS ====== */
-.filter-chips {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 0 16px 12px;
-  -webkit-overflow-scrolling: touch;
-}
-.filter-chips::-webkit-scrollbar { display: none; }
-.chip {
-  padding: 7px 16px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 500;
-  white-space: nowrap;
-  border: 1.5px solid var(--border);
-  background: var(--card);
-  color: var(--text2);
-  cursor: pointer;
-  transition: all 0.2s;
-  font-family: var(--font);
-}
-.chip.active {
-  background: var(--primary-ghost);
-  border-color: var(--primary);
-  color: var(--primary-deep);
-  font-weight: 600;
-}
-.chip:active { transform: scale(0.95); }
-
-/* ====== TABLE (订单详情页用) ====== */
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
-.data-table th {
-  text-align: left;
-  padding: 10px 14px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text3);
-  border-bottom: 1px solid var(--border);
-  background: #fdfbf8;
-  white-space: nowrap;
-}
-.data-table td {
-  padding: 10px 14px;
-  border-bottom: 1px solid #faf6f0;
-  color: var(--text);
-}
-.data-table tr:active td { background: var(--primary-ghost); }
-
-/* ====== SEARCH BAR ====== */
-.search-bar {
-  display: flex;
-  gap: 8px;
-  padding: 0 16px 12px;
-}
-.search-bar input {
-  flex: 1;
-  padding: 10px 14px 10px 36px;
-  border: 1.5px solid var(--border);
-  border-radius: 24px;
-  font-size: 14px;
-  font-family: var(--font);
-  background: var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23b8a088' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") 12px center no-repeat;
-  color: var(--text);
-}
-.search-bar input:focus { outline: none; border-color: var(--primary); }
-
-/* ====== LIST ITEMS ====== */
-.list-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  background: var(--card);
-  margin: 0 16px 8px;
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow);
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.list-item:active { transform: scale(0.98); }
-.list-item .l-avatar {
-  width: 42px; height: 42px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-}
-.list-item .l-info { flex: 1; min-width: 0; }
-.list-item .l-name { font-size: 14px; font-weight: 600; color: var(--text); }
-.list-item .l-meta { font-size: 12px; color: var(--text3); margin-top: 2px; }
-.list-item .l-right { text-align: right; flex-shrink: 0; }
-.list-item .l-amount { font-size: 15px; font-weight: 700; }
-.list-item .l-status { font-size: 11px; margin-top: 2px; }
-
-/* ====== TOAST ====== */
-.toast {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 999;
-  padding: 12px 24px;
-  border-radius: 24px;
-  background: #3d2e24;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-  animation: toastIn 0.3s ease;
-  pointer-events: none;
-}
-@keyframes toastIn {
-  from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
-  to { opacity: 1; transform: translateX(-50%) translateY(0); }
-}
-
-/* ====== RESPONSIVE ====== */
-@media (min-width: 768px) {
-  body {
-    max-width: 480px;
-    margin: 0 auto;
-    box-shadow: 0 0 60px rgba(0,0,0,0.05);
-    min-height: 100vh;
-  }
-  .modal { max-width: 480px; }
-}
+.editor-add-item:active{background:var(--primary-ghost)}
 </style>
 </head>
 <body>
 
-<!-- ====== NAV BAR ====== -->
-<nav class="nav-bar" id="navBar">
+<!-- NAV -->
+<nav class="nav-bar">
   <div class="nav-logo">
     <div class="icon">💒</div>
     <span class="text">云婚纱管家</span>
@@ -728,62 +529,52 @@ body {
   </div>
 </nav>
 
-<!-- ====== PAGE: 首页/仪表盘 ====== -->
+<!-- HOME PAGE -->
 <div class="page active" id="tab-home">
-  <div class="stats-row">
-    <div class="stat-card">
-      <div class="stat-label">今日订单</div>
-      <div class="stat-value">12</div>
-      <div class="stat-sub up">↑ 较昨日 +3</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">本月营收</div>
-      <div class="stat-value">¥68,500</div>
-      <div class="stat-sub up">↑ 较上月 +12%</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">在租婚纱</div>
-      <div class="stat-value">47<span style="font-size:16px;font-weight:500;color:var(--text3)">/128</span></div>
-      <div class="stat-sub" style="color:var(--text3)">库存充足</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">待收尾款</div>
-      <div class="stat-value" style="color:var(--danger)">¥23,200</div>
-      <div class="stat-sub warn">涉及 8 笔订单</div>
-    </div>
-  </div>
-
-  <div class="quick-actions">
-    <button class="quick-btn" onclick="openNewOrder()">
-      <div class="q-icon new">📋</div>新建订单
+  <div class="revenue-row" id="revenueRow"></div>
+  <div class="func-grid">
+    <button class="func-item" onclick="openNewOrder()">
+      <div class="f-icon c1">📋</div>婚纱订单
     </button>
-    <button class="quick-btn" onclick="switchTab('calendar')">
-      <div class="q-icon cal">📅</div>档期查询
+    <button class="func-item" onclick="switchTab('inventory')">
+      <div class="f-icon c2">👗</div>婚纱列表
     </button>
-    <button class="quick-btn" onclick="switchTab('inventory')">
-      <div class="q-icon dress">👗</div>婚纱库存
+    <button class="func-item" onclick="switchTab('calendar')">
+      <div class="f-icon c3">📅</div>档期日历
     </button>
-    <button class="quick-btn" onclick="switchTab('finance')">
-      <div class="q-icon money">💰</div>收款管理
+    <button class="func-item" onclick="switchTab('inventory')">
+      <div class="f-icon c4">👔</div>服饰管理
     </button>
-  </div>
-
-  <div class="notif-card">
-    <div class="n-dot"></div>
-    <span><strong>取纱提醒：</strong>今日 3 位客户需取纱</span>
-    <button class="n-close" onclick="this.parentElement.remove()">×</button>
+    <button class="func-item" onclick="switchTab('finance')">
+      <div class="f-icon c5">💰</div>营业额
+    </button>
+    <button class="func-item" onclick="switchTab('settings')">
+      <div class="f-icon c6">🏪</div>店铺管理
+    </button>
+    <button class="func-item" onclick="openNewOrder()">
+      <div class="f-icon c7">💄</div>化妆订单
+    </button>
+    <button class="func-item" onclick="switchTab('inventory')">
+      <div class="f-icon c8">💄</div>化妆师
+    </button>
+    <button class="func-item" onclick="switchTab('orders')">
+      <div class="f-icon c9">👥</div>客资管理
+    </button>
+    <button class="func-item" onclick="showToast('更多功能开发中')">
+      <div class="f-icon c10">⋯</div>更多
+    </button>
   </div>
 
   <div class="section">
     <div class="section-header">
       <span class="section-title">📋 最近订单</span>
-      <span class="section-more" onclick="switchTab('orders')">全部 ›</span>
+      <button class="section-more" onclick="switchTab('orders')">全部 ›</button>
     </div>
     <div id="recentOrders"></div>
   </div>
 </div>
 
-<!-- ====== PAGE: 订单列表 ====== -->
+<!-- ORDERS PAGE -->
 <div class="page" id="tab-orders">
   <div class="search-bar" style="margin-top:8px">
     <input type="text" placeholder="搜索客户姓名、电话..." id="orderSearch" oninput="renderOrderList()">
@@ -796,25 +587,25 @@ body {
   </div>
   <div id="orderList"></div>
   <div style="text-align:center;padding:16px">
-    <button class="btn btn-primary" style="width:100%;max-width:300px" onclick="openNewOrder()">✨ 新建租赁订单</button>
+    <button class="btn btn-primary btn-block" style="max-width:300px" onclick="openNewOrder()">✨ 新建租赁订单</button>
   </div>
 </div>
 
-<!-- ====== PAGE: 档期日历 ====== -->
+<!-- CALENDAR PAGE -->
 <div class="page" id="tab-calendar">
-  <div class="cal-header" style="margin-top:16px">
+  <div class="cal-header" style="margin-top:8px">
     <button onclick="changeMonth(-1)">‹</button>
     <span class="month" id="calMonth"></span>
     <button onclick="changeMonth(1)">›</button>
   </div>
   <div class="cal-grid" id="calGrid"></div>
-  <div class="section" style="margin-top:16px">
-    <div class="section-header"><span class="section-title">📋 今日档期</span></div>
-    <div id="scheduleToday"></div>
+  <div class="section" style="margin-top:12px">
+    <div class="section-header"><span class="section-title">📋 档期订单</span></div>
+    <div id="calDayOrders"></div>
   </div>
 </div>
 
-<!-- ====== PAGE: 婚纱库存 ====== -->
+<!-- INVENTORY PAGE -->
 <div class="page" id="tab-inventory">
   <div class="search-bar" style="margin-top:8px">
     <input type="text" placeholder="搜索款式名称..." id="invSearch" oninput="renderInventory()">
@@ -830,9 +621,9 @@ body {
   <div class="section">
     <div class="section-header">
       <span class="section-title">👗 婚纱礼服</span>
-      <span class="section-more" onclick="openInventoryForm()">+ 上架</span>
+      <button class="section-more" onclick="openInventoryForm()">+ 上架新款</button>
     </div>
-    <div class="item-scroll" id="inventoryGrid"></div>
+    <div class="inv-scroll" id="inventoryGrid"></div>
   </div>
   <div class="section">
     <div class="section-header"><span class="section-title">💄 化妆师</span></div>
@@ -844,26 +635,9 @@ body {
   </div>
 </div>
 
-<!-- ====== PAGE: 收款管理 ====== -->
+<!-- FINANCE PAGE -->
 <div class="page" id="tab-finance">
-  <div class="stats-row" style="padding-top:16px">
-    <div class="stat-card">
-      <div class="stat-label">本月营收</div>
-      <div class="stat-value">¥68,500</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">待收尾款</div>
-      <div class="stat-value" style="color:var(--danger)">¥23,200</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">押金池</div>
-      <div class="stat-value">¥45,000</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">本月退款</div>
-      <div class="stat-value" style="color:var(--text3)">¥8,500</div>
-    </div>
-  </div>
+  <div class="revenue-row" style="padding-top:12px" id="financeRevenue"></div>
   <div class="section">
     <div class="section-header"><span class="section-title">💰 收款记录</span></div>
     <div id="financeList"></div>
@@ -874,63 +648,58 @@ body {
   </div>
 </div>
 
-<!-- ====== PAGE: 设置 ====== -->
+<!-- SETTINGS PAGE -->
 <div class="page" id="tab-settings">
-  <div class="section" style="padding-top:16px">
+  <div class="section" style="padding-top:12px">
     <div class="section-header"><span class="section-title">⚙️ 系统设置</span></div>
-    <div class="list-item" onclick="showToast('店铺信息')">
-      <div class="l-avatar" style="background:#fdf5ed">🏪</div>
-      <div class="l-info"><div class="l-name">店铺信息</div><div class="l-meta">徽享婚纱礼服馆</div></div>
-      <div style="color:var(--text3)">›</div>
+    <div class="settings-item" onclick="openShopForm()">
+      <div class="si-icon" style="background:#fdf5ed">🏪</div>
+      <div class="si-info"><div class="si-name">店铺信息</div><div class="si-meta" id="shopInfoMeta">点击设置店铺信息</div></div>
+      <span style="color:var(--text3)">›</span>
     </div>
-    <div class="list-item" onclick="showToast('员工管理')">
-      <div class="l-avatar" style="background:#edf7f0">👥</div>
-      <div class="l-info"><div class="l-name">员工管理</div><div class="l-meta">3 名员工</div></div>
-      <div style="color:var(--text3)">›</div>
+    <div class="settings-item" onclick="openStaffForm()">
+      <div class="si-icon" style="background:#edf7f0">👥</div>
+      <div class="si-info"><div class="si-name">员工/化妆师/摄影师</div><div class="si-meta" id="staffInfoMeta">管理团队成员</div></div>
+      <span style="color:var(--text3)">›</span>
     </div>
-    <div class="list-item" onclick="showToast('渠道管理')">
-      <div class="l-avatar" style="background:#edf4f8">📊</div>
-      <div class="l-info"><div class="l-name">渠道管理</div><div class="l-meta">小红书、抖音、美团等</div></div>
-      <div style="color:var(--text3)">›</div>
+    <div class="settings-item" onclick="openChannelForm()">
+      <div class="si-icon" style="background:#edf4f8">📊</div>
+      <div class="si-info"><div class="si-name">渠道管理</div><div class="si-meta" id="channelInfoMeta">管理客户来源渠道</div></div>
+      <span style="color:var(--text3)">›</span>
     </div>
-    <div class="list-item" onclick="installPWA()" id="installBtn" style="display:none">
-      <div class="l-avatar" style="background:#fdf0f5">📲</div>
-      <div class="l-info"><div class="l-name">添加到手机桌面</div><div class="l-meta">像APP一样快速打开</div></div>
-      <div style="color:var(--primary)">安装 ›</div>
+    <div class="settings-item" onclick="addToHomeScreen()">
+      <div class="si-icon" style="background:#fdf0f5">📲</div>
+      <div class="si-info"><div class="si-name">添加到手机桌面</div><div class="si-meta">像App一样快速打开</div></div>
+      <span style="color:var(--primary)">安装 ›</span>
+    </div>
+    <div class="settings-item" onclick="exportAllData()">
+      <div class="si-icon" style="background:#f5f0fa">📦</div>
+      <div class="si-info"><div class="si-name">导出/导入数据</div><div class="si-meta">备份与恢复全部数据</div></div>
+      <span style="color:var(--text3)">›</span>
     </div>
   </div>
 </div>
 
-<!-- ====== BOTTOM TAB BAR ====== -->
+<!-- TAB BAR -->
 <nav class="tab-bar">
   <button class="tab-item active" onclick="switchTab('home')">
-    <span class="t-icon">🏠</span>
-    <span>首页</span>
-    <span class="t-dot"></span>
+    <span class="t-icon">🏠</span><span>首页</span><span class="t-dot"></span>
   </button>
   <button class="tab-item" onclick="switchTab('orders')">
-    <span class="t-icon">📋</span>
-    <span>订单</span>
-    <span class="t-dot"></span>
+    <span class="t-icon">📋</span><span>订单</span><span class="t-dot"></span>
   </button>
   <button class="tab-item" onclick="switchTab('calendar')">
-    <span class="t-icon">📅</span>
-    <span>档期</span>
-    <span class="t-dot"></span>
+    <span class="t-icon">📅</span><span>档期</span><span class="t-dot"></span>
   </button>
   <button class="tab-item" onclick="switchTab('inventory')">
-    <span class="t-icon">👗</span>
-    <span>库存</span>
-    <span class="t-dot"></span>
+    <span class="t-icon">👗</span><span>库存</span><span class="t-dot"></span>
   </button>
   <button class="tab-item" onclick="switchTab('finance')">
-    <span class="t-icon">💰</span>
-    <span>财务</span>
-    <span class="t-dot"></span>
+    <span class="t-icon">💰</span><span>财务</span><span class="t-dot"></span>
   </button>
 </nav>
 
-<!-- ====== MODAL: 新建订单 ====== -->
+<!-- ========== ORDER EDITOR MODAL ========== -->
 <div class="modal-overlay" id="orderModal">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -939,44 +708,52 @@ body {
       <button class="modal-close" onclick="closeModal('orderModal')">×</button>
     </div>
     <div class="modal-body">
-      <div class="step-title"><span class="step-num">1</span> 基础信息</div>
-      <div class="form-row">
-        <div class="form-group"><label>客户姓名 *</label><input type="text" id="ordName" placeholder="请输入"></div>
-        <div class="form-group"><label>联系电话 *</label><input type="tel" id="ordPhone" placeholder="手机号码"></div>
+      <div class="editor-field">
+        <span class="ef-label">姓名 *</span>
+        <input class="ef-input" type="text" id="ordName" placeholder="客户姓名">
+      </div>
+      <div class="editor-field">
+        <span class="ef-label">手机号 *</span>
+        <input class="ef-input" type="tel" id="ordPhone" placeholder="手机号码">
+      </div>
+      <div class="editor-field">
+        <span class="ef-label">婚期 *</span>
+        <input class="ef-input" type="date" id="ordWeddingDate" onchange="autoCalcDates()">
       </div>
       <div class="form-row">
-        <div class="form-group"><label>婚期 *</label><input type="date" id="ordWeddingDate" onchange="autoCalcDates()"></div>
-        <div class="form-group"><label>酒店地址</label>
-          <select id="ordHotel"><option>请选择</option><option>合肥洲际酒店</option><option>合肥香格里拉</option><option>合肥万达文华</option><option>合肥希尔顿</option><option>其他</option></select>
+        <div class="editor-field">
+          <span class="ef-label">取纱</span>
+          <input class="ef-input" type="date" id="ordPickupDate">
+        </div>
+        <div class="editor-field">
+          <span class="ef-label">还纱</span>
+          <input class="ef-input" type="date" id="ordReturnDate">
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group"><label>取纱时间</label><input type="date" id="ordPickupDate"></div>
-        <div class="form-group"><label>还纱时间</label><input type="date" id="ordReturnDate"></div>
+      <div class="editor-field">
+        <span class="ef-label">酒店</span>
+        <input class="ef-input" type="text" id="ordHotel" placeholder="酒店地址">
       </div>
-
-      <div class="step-title"><span class="step-num">2</span> 人员预约</div>
-      <div class="form-row">
-        <div class="form-group"><label>化妆师</label><select id="ordMakeup"><option>请选择</option></select></div>
-        <div class="form-group"><label>摄影师</label><select id="ordPhotographer"><option>请选择</option></select></div>
+      <div class="editor-divider"></div>
+      <div class="editor-section-title">💄 人员预约</div>
+      <div class="editor-field">
+        <span class="ef-label">化妆师</span>
+        <select class="ef-input" id="ordMakeup"><option value="">请选择</option></select>
       </div>
-
-      <div class="step-title"><span class="step-num">3</span> 婚纱礼服选择</div>
-      <div class="filter-chips" style="padding:0;margin-bottom:10px">
-        <button class="chip active" onclick="filterOrderItems('全部',this)">全部</button>
-        <button class="chip" onclick="filterOrderItems('婚纱',this)">婚纱</button>
-        <button class="chip" onclick="filterOrderItems('秀禾',this)">秀禾</button>
-        <button class="chip" onclick="filterOrderItems('礼服',this)">礼服</button>
-        <button class="chip" onclick="filterOrderItems('西装',this)">西装</button>
-        <button class="chip" onclick="filterOrderItems('伴娘服',this)">伴娘服</button>
+      <div class="editor-field">
+        <span class="ef-label">摄影师</span>
+        <select class="ef-input" id="ordPhotographer"><option value="">请选择</option></select>
       </div>
-      <div class="item-scroll" id="orderItemsGrid" style="max-height:260px;overflow-y:auto;flex-wrap:wrap;"></div>
-      <div style="margin-top:10px;font-size:13px;color:var(--text2);text-align:center" id="selectedItemsSummary">已选 0 件，合计 ¥0</div>
-
-      <div class="step-title"><span class="step-num">4</span> 金额结算</div>
+      <div class="editor-divider"></div>
+      <div class="editor-section-title">👗 已选择服饰</div>
+      <div class="sel-items-list" id="selItemsList"></div>
+      <button class="editor-add-item" onclick="openDressPanel()">+ 添加婚纱礼服</button>
+      <div style="text-align:center;margin-top:6px;font-size:11px;color:var(--text3)" id="selItemsSummary">已选 0 件，合计 ¥0</div>
+      <div class="editor-divider"></div>
+      <div class="editor-section-title">💰 金额结算</div>
       <div class="form-row">
-        <div class="form-group"><label>订单总金额</label><input type="number" id="ordTotal" value="0" onchange="autoCalcUnpaid()"></div>
-        <div class="form-group"><label>已付金额</label><input type="number" id="ordPaid" value="0" onchange="autoCalcUnpaid()"></div>
+        <div class="form-group"><label>总金额</label><input type="number" id="ordTotal" value="0" onchange="autoCalcUnpaid()"></div>
+        <div class="form-group"><label>已付</label><input type="number" id="ordPaid" value="0" onchange="autoCalcUnpaid()"></div>
       </div>
       <div class="form-row">
         <div class="form-group"><label>押金</label><input type="number" id="ordDeposit" value="0"></div>
@@ -985,190 +762,214 @@ body {
       <div class="form-group"><label>支付方式</label>
         <select id="ordPayment"><option>微信支付</option><option>支付宝</option><option>银行卡</option><option>信用卡</option><option>现金</option></select>
       </div>
-
-      <div class="step-title"><span class="step-num">5</span> 销售与渠道</div>
+      <div class="editor-divider"></div>
+      <div class="editor-section-title">📊 销售与渠道</div>
       <div class="form-row">
-        <div class="form-group"><label>销售人员</label><select id="ordSales"><option>请选择</option></select></div>
+        <div class="form-group"><label>销售人员</label><select id="ordSales"><option value="">请选择</option></select></div>
         <div class="form-group"><label>客户来源</label>
-          <select id="ordChannel"><option>小红书</option><option>抖音</option><option>美团</option><option>异业合作</option><option>酒店推荐</option><option>婚庆推荐</option><option>朋友推荐</option><option>新人转介绍</option><option>到店自然客流</option></select>
+          <select id="ordChannel"><option>小红书</option><option>抖音</option><option>美团</option><option>大众点评</option><option>异业合作</option><option>酒店推荐</option><option>婚庆推荐</option><option>朋友推荐</option><option>新人转介绍</option><option>到店自然客流</option></select>
         </div>
       </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="saveOrderDraft()">💾 保存草稿</button>
-      <button class="btn btn-primary" onclick="submitOrder()">✅ 提交发布</button>
+      <button class="btn btn-danger" onclick="submitOrder()">✅ 提交发布</button>
     </div>
   </div>
 </div>
 
-<!-- ====== MODAL: 上架新款 ====== -->
-<div class="modal-overlay" id="inventoryModal">
+<!-- ========== DRESS SELECTION PANEL ========== -->
+<div class="dress-panel-overlay" id="dressPanel">
+  <div class="dress-panel">
+    <div class="dress-panel-header">
+      <h3>选择婚纱礼服</h3>
+      <button class="modal-close" onclick="closeDressPanel()">×</button>
+    </div>
+    <div class="dress-panel-body">
+      <div class="dress-cats" id="dressCats"></div>
+      <div class="dress-main">
+        <div class="dress-subcats" id="dressSubcats"></div>
+        <div class="dress-grid" id="dressGrid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== DRESS DETAIL PANEL ========== -->
+<div class="detail-overlay" id="detailPanel">
+  <div class="detail-panel">
+    <div class="detail-img" id="detailImg"></div>
+    <div class="detail-body">
+      <h3 id="detailName"></h3>
+      <div class="detail-meta" id="detailMeta"></div>
+      <div class="detail-price" id="detailPrice"></div>
+      <div class="detail-section">
+        <div class="ds-title">选择尺码</div>
+        <div class="size-options" id="sizeOptions"></div>
+      </div>
+    </div>
+    <div class="detail-footer">
+      <button class="btn btn-outline" onclick="closeDetailPanel()" style="flex:1">取消</button>
+      <button class="btn btn-danger" onclick="addItemToOrder()" style="flex:1">加入</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== INVENTORY FORM MODAL ========== -->
+<div class="modal-overlay" id="invFormModal">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-header">
-      <h3>👗 上架新款</h3>
-      <button class="modal-close" onclick="closeModal('inventoryModal')">×</button>
+      <h3 id="invFormTitle">👗 上架新款</h3>
+      <button class="modal-close" onclick="closeModal('invFormModal')">×</button>
     </div>
     <div class="modal-body">
-      <div class="form-row">
-        <div class="form-group"><label>款式名称 *</label><input type="text" placeholder="梦幻星空主纱"></div>
-        <div class="form-group"><label>品类 *</label><select><option>婚纱</option><option>秀禾</option><option>礼服</option><option>西装</option><option>伴娘服</option></select></div>
+      <div class="form-group"><label>款式图片 *</label>
+        <div class="img-upload-area" id="invImgUpload" onclick="document.getElementById('invImgInput').click()">
+          <div class="img-placeholder">📷</div>
+          <div class="img-hint">点击上传或拖拽图片</div>
+          <input type="file" id="invImgInput" accept="image/*" onchange="handleInvImgUpload(event)">
+        </div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>品牌</label><input type="text" placeholder="Vera Wang"></div>
-        <div class="form-group"><label>租价（元/天）*</label><input type="number" placeholder="0"></div>
+        <div class="form-group"><label>款式名称 *</label><input type="text" id="invName" placeholder="如：梦幻星空主纱"></div>
+        <div class="form-group"><label>品类 *</label><select id="invCat"><option>婚纱</option><option>秀禾</option><option>礼服</option><option>西装</option><option>伴娘服</option></select></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>颜色</label><select><option>白色</option><option>香槟色</option><option>红色</option><option>粉色</option><option>蓝色</option></select></div>
-        <div class="form-group"><label>风格</label><select><option>简约</option><option>宫廷</option><option>森系</option><option>中式</option><option>韩式</option><option>欧美</option></select></div>
+        <div class="form-group"><label>子分类</label><select id="invSubcat"><option>主纱</option><option>轻纱</option><option>缎面</option><option>鱼尾</option><option>蓬裙</option><option>A字裙</option><option>敬酒服</option><option>出门纱</option></select></div>
+        <div class="form-group"><label>品牌</label><input type="text" id="invBrand" placeholder="品牌名称"></div>
       </div>
-      <div class="form-group"><label>尺码库存（S/M/L/XL/XXL）</label><input type="text" placeholder="S:2, M:3, L:2, XL:1, XXL:1"></div>
+      <div class="form-row">
+        <div class="form-group"><label>颜色</label><select id="invColor"><option>白色</option><option>香槟色</option><option>红色</option><option>粉色</option><option>蓝色</option><option>金色</option></select></div>
+        <div class="form-group"><label>风格</label><select id="invStyle"><option>简约</option><option>宫廷</option><option>森系</option><option>中式</option><option>韩式</option><option>欧美</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>租价（元/天）*</label><input type="number" id="invPrice" placeholder="0"></div>
+        <div class="form-group"><label>状态</label><select id="invStatus"><option>可租</option><option>已预约</option></select></div>
+      </div>
+      <div class="form-group"><label>尺码库存（格式：S:2 M:3 L:2 XL:1）</label><input type="text" id="invSizes" placeholder="S:2 M:3 L:2 XL:1 XXL:1"></div>
+      <div class="form-group"><label>备注</label><textarea id="invNote" rows="2" placeholder="款式描述..."></textarea></div>
+      <input type="hidden" id="invEditId" value="">
+      <input type="hidden" id="invImgData" value="">
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('inventoryModal')">取消</button>
-      <button class="btn btn-primary">✅ 确认上架</button>
+      <button class="btn btn-outline" onclick="closeModal('invFormModal')">取消</button>
+      <button class="btn btn-danger" onclick="saveInventoryItem()" style="flex:1">✅ 确认上架</button>
+      <button class="btn btn-outline btn-sm" id="invDelBtn" style="display:none;color:var(--danger)" onclick="deleteInventoryItem()">🗑 删除</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== STAFF FORM MODAL ========== -->
+<div class="modal-overlay" id="staffModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <h3 id="staffModalTitle">👥 添加成员</h3>
+      <button class="modal-close" onclick="closeModal('staffModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label>姓名 *</label><input type="text" id="staffName" placeholder="姓名"></div>
+      <div class="form-group"><label>角色 *</label><select id="staffRole"><option>化妆师</option><option>摄影师</option><option>销售</option><option>店长</option><option>助理</option></select></div>
+      <div class="form-group"><label>等级</label><select id="staffLevel"><option>高级</option><option>中级</option><option>初级</option><option>总监</option></select></div>
+      <div class="form-group"><label>擅长风格</label><input type="text" id="staffStyles" placeholder="如：中式、韩式、欧美"></div>
+      <div class="form-group"><label>联系电话</label><input type="tel" id="staffPhone" placeholder="手机号"></div>
+      <input type="hidden" id="staffEditId" value="">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('staffModal')">取消</button>
+      <button class="btn btn-danger" onclick="saveStaff()" style="flex:1">✅ 保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SHOP FORM MODAL ========== -->
+<div class="modal-overlay" id="shopModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <h3>🏪 店铺信息</h3>
+      <button class="modal-close" onclick="closeModal('shopModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label>店铺名称</label><input type="text" id="shopName" placeholder="云婚纱"></div>
+      <div class="form-group"><label>联系电话</label><input type="tel" id="shopPhone" placeholder="店铺电话"></div>
+      <div class="form-group"><label>店铺地址</label><input type="text" id="shopAddr" placeholder="详细地址"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('shopModal')">取消</button>
+      <button class="btn btn-danger" onclick="saveShop()" style="flex:1">✅ 保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== DATA IMPORT/EXPORT MODAL ========== -->
+<div class="modal-overlay" id="dataModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <h3>📦 数据管理</h3>
+      <button class="modal-close" onclick="closeModal('dataModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="text-align:center;padding:8px 0">
+        <button class="btn btn-danger" onclick="exportAllData()" style="width:100%;margin-bottom:12px">📤 导出全部数据（JSON文件）</button>
+        <div class="img-upload-area" id="dataImportArea" onclick="document.getElementById('dataImportInput').click()">
+          <div class="img-placeholder">📥</div>
+          <div class="img-hint">点击导入之前导出的数据文件</div>
+          <input type="file" id="dataImportInput" accept=".json" onchange="handleDataImport(event)">
+        </div>
+        <p style="font-size:11px;color:var(--danger);margin-top:12px">⚠️ 导入数据将覆盖当前所有数据，请谨慎操作</p>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-// ============ DATA ============
-const DATA = {
+// ============ DATA STORE ============
+const STORE_KEY = 'yunhunsha_v4';
+let DATA = {
   orders: [],
   inventory: [],
-  makeup: [],
-  photographer: [],
   staff: [],
-  selectedItems: [],
+  channels: ['小红书','抖音','美团','大众点评','异业合作','酒店推荐','婚庆推荐','朋友推荐','新人转介绍','到店自然客流'],
+  shop: { name:'', phone:'', address:'' },
   currentTab: 'home',
   orderFilter: 'all',
   invFilter: '全部',
-  orderItemFilter: '全部',
   calYear: new Date().getFullYear(),
   calMonth: new Date().getMonth(),
+  selectedItems: [], // 当前正在编辑的订单已选服饰
+  detailItem: null, // 详情面板查看的单品
+  detailSelectedSize: '',
+  // 选款面板状态
+  dressCat: '全部',
+  dressSubcat: '全部',
 };
 
-// ============ CLOUD SYNC ============
-const CLOUD = {
-  // 使用 localStorage 作为共享存储（同浏览器不同标签页可以共享）
-  // 跨设备同步通过 GitHub Gist 实现
-  syncKey: 'yunhunsha_data_v2',
-  gistId: '88c4f7e3a2b1d5f6e9c0',  // 会被服务器返回的真实 ID 覆盖
-  syncTimer: null,
-  lastHash: '',
-
-  // 保存数据到本地并触发云端同步
-  saveLocal() {
-    const payload = {
-      orders: DATA.orders,
-      inventory: DATA.inventory,
-      makeup: DATA.makeup,
-      photographer: DATA.photographer,
-      staff: DATA.staff,
-      updatedAt: new Date().toISOString()
-    };
-    localStorage.setItem(this.syncKey, JSON.stringify(payload));
-    this.syncToCloud(payload);
-  },
-
-  // 从本地加载
-  loadLocal() {
-    const raw = localStorage.getItem(this.syncKey);
-    if (raw) {
-      try {
-        const p = JSON.parse(raw);
-        if (p.orders) DATA.orders = p.orders;
-        if (p.inventory) DATA.inventory = p.inventory;
-        if (p.makeup) DATA.makeup = p.makeup;
-        if (p.photographer) DATA.photographer = p.photographer;
-        if (p.staff) DATA.staff = p.staff;
-        return true;
-      } catch(e) { return false; }
-    }
-    return false;
-  },
-
-  // 同步到云端 Gist
-  async syncToCloud(payload) {
-    const hash = JSON.stringify(payload).slice(0, 50);
-    if (hash === this.lastHash) return; // 避免重复同步
-    this.lastHash = hash;
+function loadData() {
+  const raw = localStorage.getItem(STORE_KEY);
+  if (raw) {
     try {
-      const token = 'ghp_dummy'; // 占位，实际部署时需替换
-      const url = this.gistId !== '88c4f7e3a2b1d5f6e9c0'
-        ? `https://api.github.com/gists/${this.gistId}`
-        : 'https://api.github.com/gists';
-      const res = await fetch(url, {
-        method: this.gistId !== '88c4f7e3a2b1d5f6e9c0' ? 'PATCH' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `token ${token}`
-        },
-        body: JSON.stringify({
-          description: '云婚纱管家数据',
-          public: false,
-          files: { 'yunhunsha_data.json': { content: JSON.stringify(payload, null, 2) } }
-        })
-      });
-      if (res.ok) {
-        const json = await res.json();
-        if (json.id) { this.gistId = json.id; localStorage.setItem('yunhunsha_gist_id', json.id); }
-      }
-    } catch(e) { /* 静默失败，本地数据依然有效 */ }
-  },
-
-  // 从云端 Gist 拉取
-  async pullFromCloud() {
-    try {
-      const gid = localStorage.getItem('yunhunsha_gist_id');
-      if (!gid) return false;
-      const res = await fetch(`https://api.github.com/gists/${gid}`);
-      if (!res.ok) return false;
-      const json = await res.json();
-      const file = json.files['yunhunsha_data.json'];
-      if (!file) return false;
-      const data = JSON.parse(file.content);
-      // 比对时间戳，只合并更新的数据
-      const local = JSON.parse(localStorage.getItem(this.syncKey) || '{}');
-      const localTime = local.updatedAt || '2000-01-01';
-      const cloudTime = data.updatedAt || '2000-01-01';
-      if (cloudTime > localTime) {
-        if (data.orders) DATA.orders = data.orders;
-        if (data.inventory) DATA.inventory = data.inventory;
-        if (data.makeup) DATA.makeup = data.makeup;
-        if (data.photographer) DATA.photographer = data.photographer;
-        if (data.staff) DATA.staff = data.staff;
-        localStorage.setItem(this.syncKey, JSON.stringify(data));
-        return true;
-      }
-    } catch(e) { return false; }
-    return false;
-  },
-
-  // 启动自动同步
-  startAutoSync() {
-    this.loadLocal();
-    // 每30秒自动拉取云端数据
-    this.syncTimer = setInterval(async () => {
-      const updated = await this.pullFromCloud();
-      if (updated) {
-        refreshAllViews();
-        showToast('🔄 数据已同步');
-      }
-    }, 30000);
-    // 首次启动也拉取
-    this.pullFromCloud().then(updated => {
-      if (updated) refreshAllViews();
-    });
+      const d = JSON.parse(raw);
+      DATA.orders = d.orders || [];
+      DATA.inventory = d.inventory || [];
+      DATA.staff = d.staff || [];
+      DATA.channels = d.channels || ['小红书','抖音','美团','大众点评','异业合作','酒店推荐','婚庆推荐','朋友推荐','新人转介绍','到店自然客流'];
+      DATA.shop = d.shop || { name:'', phone:'', address:'' };
+    } catch(e) { console.error('数据加载失败', e); }
   }
-};
+}
 
-function refreshAllViews() {
-  if (DATA.currentTab === 'home') renderRecentOrders();
-  if (DATA.currentTab === 'orders') renderOrderList();
-  if (DATA.currentTab === 'calendar') renderCalendar();
-  if (DATA.currentTab === 'inventory') { renderInventory(); renderMakeupList(); renderPhotographerList(); }
-  if (DATA.currentTab === 'finance') { renderFinanceList(); renderSalesRanking(); }
+function saveData() {
+  localStorage.setItem(STORE_KEY, JSON.stringify({
+    orders: DATA.orders,
+    inventory: DATA.inventory,
+    staff: DATA.staff,
+    channels: DATA.channels,
+    shop: DATA.shop,
+    updatedAt: new Date().toISOString()
+  }));
 }
 
 // ============ TAB NAVIGATION ============
@@ -1176,238 +977,505 @@ function switchTab(tab) {
   DATA.currentTab = tab;
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-  const page = document.getElementById('tab-'+tab);
+  const page = document.getElementById('tab-' + tab);
   if (page) page.classList.add('active');
-  const tabBtn = document.querySelector(`.tab-item[onclick*="${tab}"]`);
-  if (tabBtn) tabBtn.classList.add('active');
+  const tabs = document.querySelectorAll('.tab-item');
+  const names = ['home','orders','calendar','inventory','finance'];
+  const idx = names.indexOf(tab);
+  if (idx >= 0 && tabs[idx]) tabs[idx].classList.add('active');
 
-  if (tab === 'home') renderRecentOrders();
+  if (tab === 'home') { renderRevenue(); renderRecentOrders(); }
   if (tab === 'orders') renderOrderList();
   if (tab === 'calendar') renderCalendar();
   if (tab === 'inventory') { renderInventory(); renderMakeupList(); renderPhotographerList(); }
-  if (tab === 'finance') { renderFinanceList(); renderSalesRanking(); }
+  if (tab === 'finance') { renderFinanceRevenue(); renderFinanceList(); renderSalesRanking(); }
 
-  document.getElementById('orderModal')?.classList.remove('active');
-  document.getElementById('inventoryModal')?.classList.remove('active');
+  closeAllModals();
+}
+
+function closeAllModals() {
+  document.querySelectorAll('.modal-overlay,.dress-panel-overlay,.detail-overlay').forEach(m => m.classList.remove('active'));
 }
 
 // ============ HOME ============
+function renderRevenue() {
+  const today = new Date().toISOString().split('T')[0];
+  const todayOrders = DATA.orders.filter(o => o.created === today || o.submitted === today);
+  const todayRevenue = todayOrders.reduce((s,o) => s + (o.paid||0), 0);
+  const todayCount = todayOrders.length;
+  const monthOrders = DATA.orders.filter(o => o.status !== '草稿' && o.status !== '已取消');
+  const monthRevenue = monthOrders.reduce((s,o) => s + (o.total||0), 0);
+  const unpaid = DATA.orders.filter(o => o.unpaid > 0 && o.status !== '已取消').reduce((s,o) => s + o.unpaid, 0);
+
+  document.getElementById('revenueRow').innerHTML = `
+    <div class="revenue-card">
+      <div class="r-label">今日订单数</div>
+      <div class="r-value">${todayCount}</div>
+      <div class="r-sub">今日已收 ¥${todayRevenue.toLocaleString()}</div>
+    </div>
+    <div class="revenue-card">
+      <div class="r-label">累计营业额</div>
+      <div class="r-value">¥${monthRevenue.toLocaleString()}</div>
+      <div class="r-sub">${monthOrders.length} 笔订单</div>
+    </div>
+    <div class="revenue-card">
+      <div class="r-label">待收尾款</div>
+      <div class="r-value" style="color:var(--danger)">¥${unpaid.toLocaleString()}</div>
+      <div class="r-sub">实收不含押金</div>
+    </div>`;
+}
+
 function renderRecentOrders() {
-  const html = DATA.orders.slice(-4).reverse().map(o => {
-    const items = o.items.map(i => i.name).join('、');
-    const sc = { '已提交':'submitted', '已完成':'completed', '草稿':'draft', '已取消':'cancelled' };
-    return `<div class="order-card" onclick="viewOrder('${o.id}')">
-      <div class="o-top"><span class="o-id">${o.id}</span><span class="o-status ${sc[o.status]}">${o.status}</span></div>
+  const list = DATA.orders.slice(-5).reverse();
+  const sc = { '已提交':'submitted', '已完成':'completed', '草稿':'draft', '已取消':'cancelled' };
+  document.getElementById('recentOrders').innerHTML = list.length ? list.map(o => `
+    <div class="order-card" onclick="viewOrder('${o.id}')">
+      <div class="o-top"><span class="o-id">${o.id}</span><span class="o-status ${sc[o.status]||'submitted'}">${o.status}</span></div>
       <div class="o-body">
         <div class="o-avatar">👰</div>
-        <div class="o-info"><div class="o-name">${o.customer}</div><div class="o-meta"><span>📅 ${o.weddingDate}</span><span>📍 ${o.hotel}</span></div></div>
-        <div class="o-right"><div class="o-price">¥${o.total}</div>${o.unpaid>0?`<div class="o-unpaid">待收 ¥${o.unpaid}</div>`:''}</div>
+        <div class="o-info">
+          <div class="o-name">${o.customer}</div>
+          <div class="o-meta"><span>📅 ${o.weddingDate||'-'}</span><span>📍 ${o.hotel||'-'}</span></div>
+        </div>
+        <div class="o-right">
+          <div class="o-price">¥${(o.total||0).toLocaleString()}</div>
+          ${o.unpaid>0?`<div class="o-unpaid">待收 ¥${o.unpaid.toLocaleString()}</div>`:''}
+        </div>
       </div>
-      <div class="o-bottom"><span class="o-tag">${o.channel}</span><span class="o-tag">${o.items.length}件</span><span class="o-tag">${o.sales}</span></div>
-      <div class="o-items" style="margin-top:6px">👗 ${items}</div>
-    </div>`;
-  }).join('');
-  document.getElementById('recentOrders').innerHTML = html || '<div class="empty-state"><div class="e-icon">📋</div><div class="e-text">暂无订单</div></div>';
+      <div class="o-bottom">
+        <span class="o-tag">${o.channel||'未知'}</span>
+        <span class="o-tag">${(o.items||[]).length}件</span>
+        <span class="o-tag">${o.sales||'未分配'}</span>
+      </div>
+    </div>`).join('') : '<div class="empty-state"><div class="e-icon">📋</div><div class="e-text">暂无订单，点击下方按钮创建</div></div>';
 }
 
 // ============ ORDER LIST ============
 function setOrderFilter(f, el) {
   DATA.orderFilter = f;
   document.querySelectorAll('#orderFilters .chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
+  if (el) el.classList.add('active');
   renderOrderList();
 }
 
 function renderOrderList() {
   const search = (document.getElementById('orderSearch')?.value || '').toLowerCase();
-  let list = DATA.orders;
+  let list = [...DATA.orders].reverse();
   if (DATA.orderFilter !== 'all') list = list.filter(o => o.status === DATA.orderFilter);
-  if (search) list = list.filter(o => o.customer.includes(search) || o.phone.includes(search) || o.id.toLowerCase().includes(search));
+  if (search) list = list.filter(o => (o.customer||'').includes(search) || (o.phone||'').includes(search) || (o.id||'').toLowerCase().includes(search));
 
   const sc = { '已提交':'submitted', '已完成':'completed', '草稿':'draft', '已取消':'cancelled' };
-  const html = list.map(o => `<div class="order-card" onclick="viewOrder('${o.id}')">
-    <div class="o-top"><span class="o-id">${o.id}</span><span class="o-status ${sc[o.status]}">${o.status}</span></div>
-    <div class="o-body">
-      <div class="o-avatar">👰</div>
-      <div class="o-info"><div class="o-name">${o.customer}</div><div class="o-meta"><span>📅 ${o.weddingDate}</span><span>📍 ${o.hotel}</span></div></div>
-      <div class="o-right"><div class="o-price">¥${o.total}</div>${o.unpaid>0?`<div class="o-unpaid">待收 ¥${o.unpaid}</div>`:''}</div>
-    </div>
-    <div class="o-bottom"><span class="o-tag">${o.channel}</span><span class="o-tag">${o.items.length}件</span><span class="o-tag">${o.sales}</span><span class="o-tag">${o.makeup||'未约化妆师'}</span></div>
-  </div>`).join('');
-  document.getElementById('orderList').innerHTML = html || '<div class="empty-state"><div class="e-icon">📋</div><div class="e-text">没有匹配的订单</div></div>';
+  document.getElementById('orderList').innerHTML = list.length ? list.map(o => `
+    <div class="order-card" onclick="viewOrder('${o.id}')">
+      <div class="o-top"><span class="o-id">${o.id}</span><span class="o-status ${sc[o.status]||'submitted'}">${o.status}</span></div>
+      <div class="o-body">
+        <div class="o-avatar">👰</div>
+        <div class="o-info">
+          <div class="o-name">${o.customer}</div>
+          <div class="o-meta"><span>📅 ${o.weddingDate||'-'}</span><span>📍 ${o.hotel||'-'}</span></div>
+        </div>
+        <div class="o-right">
+          <div class="o-price">¥${(o.total||0).toLocaleString()}</div>
+          ${o.unpaid>0?`<div class="o-unpaid">待收 ¥${o.unpaid.toLocaleString()}</div>`:''}
+        </div>
+      </div>
+      <div class="o-bottom">
+        <span class="o-tag">${o.channel||'未知'}</span>
+        <span class="o-tag">${(o.items||[]).length}件</span>
+        <span class="o-tag">${o.makeup||'未约'}</span>
+        <span class="o-tag">${o.sales||'未分配'}</span>
+      </div>
+    </div>`).join('') : '<div class="empty-state"><div class="e-icon">📋</div><div class="e-text">没有匹配的订单</div></div>';
 }
 
-// ============ ORDER ACTIONS ============
+// ============ ORDER EDITOR ============
 function openNewOrder() {
   DATA.selectedItems = [];
   document.getElementById('orderModalTitle').textContent = '✨ 新建租赁订单';
-  ['ordName','ordPhone','ordWeddingDate','ordPickupDate','ordReturnDate'].forEach(id => document.getElementById(id).value='');
+  ['ordName','ordPhone','ordWeddingDate','ordPickupDate','ordReturnDate','ordHotel'].forEach(id => document.getElementById(id).value='');
   document.getElementById('ordTotal').value = 0;
   document.getElementById('ordPaid').value = 0;
   document.getElementById('ordDeposit').value = 0;
   document.getElementById('ordUnpaid').value = 0;
   populateStaffSelects();
-  renderOrderItems();
-  updateSelectedSummary();
+  renderSelectedItems();
   document.getElementById('orderModal').classList.add('active');
-  document.querySelector('#orderModal .modal').scrollTop = 0;
 }
 
 function autoCalcDates() {
   const wd = document.getElementById('ordWeddingDate').value;
   if (!wd) return;
   const d = new Date(wd);
-  const p = new Date(d); p.setDate(d.getDate()-2);
-  const r = new Date(d); r.setDate(d.getDate()+1);
+  const p = new Date(d); p.setDate(d.getDate() - 2);
+  const r = new Date(d); r.setDate(d.getDate() + 1);
   document.getElementById('ordPickupDate').value = p.toISOString().split('T')[0];
   document.getElementById('ordReturnDate').value = r.toISOString().split('T')[0];
 }
 
 function autoCalcUnpaid() {
-  const t = parseFloat(document.getElementById('ordTotal').value)||0;
-  const p = parseFloat(document.getElementById('ordPaid').value)||0;
-  document.getElementById('ordUnpaid').value = Math.max(0, t-p);
+  const t = parseFloat(document.getElementById('ordTotal').value) || 0;
+  const p = parseFloat(document.getElementById('ordPaid').value) || 0;
+  document.getElementById('ordUnpaid').value = Math.max(0, t - p);
 }
 
 function populateStaffSelects() {
-  const mu = DATA.makeup.map(m => `<option>${m.name}（${m.level}）</option>`).join('');
-  document.getElementById('ordMakeup').innerHTML = '<option value="">请选择化妆师</option>'+mu;
-  const ph = DATA.photographer.map(p => `<option>${p.name}（${p.level}）</option>`).join('');
-  document.getElementById('ordPhotographer').innerHTML = '<option value="">请选择摄影师</option>'+ph;
-  const sl = DATA.staff.map(s => `<option>${s.name}（${s.role}）</option>`).join('');
-  document.getElementById('ordSales').innerHTML = '<option value="">请选择销售</option>'+sl;
+  const makeup = DATA.staff.filter(s => s.role === '化妆师');
+  const photo = DATA.staff.filter(s => s.role === '摄影师');
+  const sales = DATA.staff.filter(s => s.role === '销售' || s.role === '店长');
+
+  document.getElementById('ordMakeup').innerHTML = '<option value="">请选择</option>' + makeup.map(m => `<option>${m.name}（${m.level}）</option>`).join('');
+  document.getElementById('ordPhotographer').innerHTML = '<option value="">请选择</option>' + photo.map(p => `<option>${p.name}（${p.level}）</option>`).join('');
+  document.getElementById('ordSales').innerHTML = '<option value="">请选择</option>' + sales.map(s => `<option>${s.name}（${s.role}）</option>`).join('');
 }
 
-function filterOrderItems(cat, el) {
-  DATA.orderItemFilter = cat;
-  document.querySelectorAll('#orderItemsGrid').forEach(g => {
-    g.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-  });
-  if (el) el.classList.add('active');
-  renderOrderItems();
-}
-
-function renderOrderItems() {
-  let items = DATA.inventory;
-  if (DATA.orderItemFilter !== '全部') items = items.filter(i => i.cat === DATA.orderItemFilter);
-  const grid = document.getElementById('orderItemsGrid');
-  const emoji = { '婚纱':'👰', '秀禾':'🏮', '礼服':'✨', '西装':'🤵', '伴娘服':'👗' };
-  grid.innerHTML = items.map(item => {
-    const sel = DATA.selectedItems.find(s => s.id === item.id);
-    const booked = item.status === '已预约';
-    return `<div class="item-card ${booked?'booked':''} ${sel?'':' '}" onclick="${booked?'':'toggleItem(\''+item.id+'\')'}" style="${sel?'border:2px solid var(--primary);box-shadow:0 0 0 3px rgba(212,165,116,0.15)':''}">
-      <div class="img-box">
-        ${emoji[item.cat]||'👗'}
-        <span class="badge ${item.status==='可租'?'available':'booked'}">${item.status}</span>
+function renderSelectedItems() {
+  const list = DATA.selectedItems;
+  const el = document.getElementById('selItemsList');
+  el.innerHTML = list.map((item, idx) => `
+    <div class="sel-item-row">
+      <div class="si-thumb">${item.image ? `<img src="${item.image}" alt="${item.name}">` : item.emoji||'👗'}</div>
+      <div class="si-info">
+        <div class="si-name">${item.name}</div>
+        <div class="si-meta">${item.cat} · ${item.selectedSize||''} · ${item.brand||''}</div>
       </div>
-      <div class="info">
-        <div class="name">${sel?'✅ ':''}${item.name}</div>
-        <div class="meta">${item.cat} · ${item.brand} · ${item.color}</div>
-        <div class="meta">尺码: ${item.sizes}</div>
-        <div class="price">¥${item.price}/天</div>
+      <div class="si-price">¥${item.price}</div>
+      <button class="si-remove" onclick="removeSelItem(${idx})">✕</button>
+    </div>
+  `).join('');
+  const total = list.reduce((s,i) => s + (i.price||0), 0);
+  document.getElementById('selItemsSummary').textContent = `已选 ${list.length} 件，合计 ¥${total.toLocaleString()}`;
+  document.getElementById('ordTotal').value = total;
+  autoCalcUnpaid();
+}
+
+function removeSelItem(idx) {
+  DATA.selectedItems.splice(idx, 1);
+  renderSelectedItems();
+}
+
+// ============ DRESS PANEL ============
+function openDressPanel() {
+  DATA.dressCat = '全部';
+  DATA.dressSubcat = '全部';
+  renderDressCats();
+  renderDressSubcats();
+  renderDressGrid();
+  document.getElementById('dressPanel').classList.add('active');
+}
+
+function closeDressPanel() {
+  document.getElementById('dressPanel').classList.remove('active');
+}
+
+function renderDressCats() {
+  const cats = ['全部', '婚纱', '秀禾', '礼服', '西装', '伴娘服'];
+  const emoji = { '全部':'📋', '婚纱':'👰', '秀禾':'🏮', '礼服':'✨', '西装':'🤵', '伴娘服':'👗' };
+  document.getElementById('dressCats').innerHTML = cats.map(c => `
+    <button class="dress-cat-item ${DATA.dressCat===c?'active':''}" onclick="selectDressCat('${c}')">
+      <span class="dc-icon">${emoji[c]}</span>${c}
+    </button>`).join('');
+}
+
+function selectDressCat(cat) {
+  DATA.dressCat = cat;
+  DATA.dressSubcat = '全部';
+  renderDressCats();
+  renderDressSubcats();
+  renderDressGrid();
+}
+
+function renderDressSubcats() {
+  let subcats = ['全部'];
+  if (DATA.dressCat === '婚纱') subcats = ['全部', '主纱', '轻纱', '缎面', '鱼尾', '蓬裙', 'A字裙'];
+  else if (DATA.dressCat === '秀禾') subcats = ['全部', '龙凤褂', '秀禾服', '马来褂'];
+  else if (DATA.dressCat === '礼服') subcats = ['全部', '敬酒服', '晚礼服', '旗袍'];
+  else if (DATA.dressCat === '西装') subcats = ['全部', '新郎西服', '伴郎服'];
+  else if (DATA.dressCat === '伴娘服') subcats = ['全部', '短款', '长款'];
+  else subcats = ['全部', '主纱', '轻纱', '缎面', '鱼尾', '蓬裙', '敬酒服', '龙凤褂', '秀禾服'];
+
+  document.getElementById('dressSubcats').innerHTML = subcats.map(s => `
+    <button class="dress-subcat ${DATA.dressSubcat===s?'active':''}" onclick="selectDressSubcat('${s}')">${s}</button>`).join('');
+}
+
+function selectDressSubcat(subcat) {
+  DATA.dressSubcat = subcat;
+  renderDressSubcats();
+  renderDressGrid();
+}
+
+function renderDressGrid() {
+  let items = [...DATA.inventory];
+  if (DATA.dressCat !== '全部') items = items.filter(i => i.cat === DATA.dressCat);
+  if (DATA.dressSubcat !== '全部') items = items.filter(i => (i.subcat||'') === DATA.dressSubcat);
+
+  const grid = document.getElementById('dressGrid');
+  if (!items.length) {
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="e-icon">👗</div><div class="e-text">该分类下暂无款式<br>请先在库存中上架</div></div>';
+    return;
+  }
+
+  const colors = ['c1','c2','c3','c4'];
+  grid.innerHTML = items.map((item, i) => {
+    const sel = DATA.selectedItems.find(s => s.id === item.id);
+    const badge = sel ? '<span class="dc-badge dbl">已选</span>' :
+      (item.status === '可租' ? '<span class="dc-badge ok">可选</span>' : '<span class="dc-badge no">已约</span>');
+    return `<div class="dress-card" onclick="${item.status==='已预约'?'showToast(\'该款式已被预约\')':'openDetailPanel(\''+item.id+'\')'}" style="${sel?'border:2px solid var(--primary)':''}">
+      <div class="dc-img ${colors[i%4]}">
+        ${item.image ? `<img src="${item.image}" alt="${item.name}" loading="lazy">` : `<span class="dc-placeholder">${item.emoji||'👗'}</span>`}
+        ${badge}
+      </div>
+      <div class="dc-info">
+        <div class="dc-name">${sel?'✅ ':''}${item.name}</div>
+        <div class="dc-price">¥${item.price}/天</div>
       </div>
     </div>`;
   }).join('');
 }
 
-function toggleItem(id) {
-  const idx = DATA.selectedItems.findIndex(s => s.id === id);
-  if (idx >= 0) DATA.selectedItems.splice(idx, 1);
-  else {
-    const item = DATA.inventory.find(i => i.id === id);
-    if (item) DATA.selectedItems.push({...item, selectedSize: item.sizes.split(' ')[0]?.split(':')[0]||'M'});
+// ============ DRESS DETAIL PANEL ============
+function openDetailPanel(itemId) {
+  const item = DATA.inventory.find(i => i.id === itemId);
+  if (!item) return;
+  DATA.detailItem = item;
+  DATA.detailSelectedSize = '';
+
+  const colors = ['c1','c2','c3','c4'];
+  const ci = DATA.inventory.indexOf(item) % 4;
+  document.getElementById('detailImg').className = 'detail-img ' + colors[ci];
+  document.getElementById('detailImg').innerHTML = item.image
+    ? `<img src="${item.image}" alt="${item.name}">`
+    : `<span style="font-size:64px">${item.emoji||'👗'}</span>`;
+
+  document.getElementById('detailName').textContent = item.name;
+  document.getElementById('detailMeta').textContent = `${item.cat} · ${item.subcat||''} · ${item.brand||''} · ${item.color||''} · ${item.style||''}`;
+  document.getElementById('detailPrice').textContent = `¥${item.price} /天`;
+
+  // Size options
+  const sizes = parseSizes(item.sizes);
+  document.getElementById('sizeOptions').innerHTML = sizes.map(s => `
+    <button class="size-opt ${s.stock===0?'disabled':''} ${DATA.detailSelectedSize===s.size?'active':''}" onclick="selectSize('${s.size}')" ${s.stock===0?'disabled':''}>
+      ${s.size}
+      <span class="sz-stock">库存 ${s.stock}</span>
+    </button>`).join('');
+
+  document.getElementById('detailPanel').classList.add('active');
+}
+
+function closeDetailPanel() {
+  document.getElementById('detailPanel').classList.remove('active');
+  DATA.detailItem = null;
+  DATA.detailSelectedSize = '';
+}
+
+function selectSize(size) {
+  DATA.detailSelectedSize = size;
+  // Re-render size options
+  const item = DATA.detailItem;
+  if (!item) return;
+  const sizes = parseSizes(item.sizes);
+  document.getElementById('sizeOptions').innerHTML = sizes.map(s => `
+    <button class="size-opt ${s.stock===0?'disabled':''} ${DATA.detailSelectedSize===s.size?'active':''}" onclick="selectSize('${s.size}')" ${s.stock===0?'disabled':''}>
+      ${s.size}
+      <span class="sz-stock">库存 ${s.stock}</span>
+    </button>`).join('');
+}
+
+function addItemToOrder() {
+  if (!DATA.detailItem) return;
+  if (!DATA.detailSelectedSize) { showToast('请先选择尺码'); return; }
+
+  // Check if already selected
+  if (DATA.selectedItems.find(s => s.id === DATA.detailItem.id)) {
+    showToast('该款式已添加');
+    closeDetailPanel();
+    return;
   }
-  renderOrderItems();
-  updateSelectedSummary();
+
+  DATA.selectedItems.push({
+    ...DATA.detailItem,
+    selectedSize: DATA.detailSelectedSize,
+  });
+  closeDetailPanel();
+  closeDressPanel();
+  renderSelectedItems();
+  showToast('✅ 已加入 ' + DATA.detailItem.name);
 }
 
-function updateSelectedSummary() {
-  const count = DATA.selectedItems.length;
-  const total = DATA.selectedItems.reduce((s,i) => s + i.price, 0);
-  document.getElementById('selectedItemsSummary').textContent = `已选 ${count} 件，合计 ¥${total}`;
-  document.getElementById('ordTotal').value = total;
-  autoCalcUnpaid();
-}
-
-function buildOrder() {
+// ============ ORDER SAVE ============
+function buildOrderData() {
   const now = new Date().toISOString().split('T')[0];
-  const id = 'ORD' + now.replace(/-/g,'') + String(DATA.orders.length+1).padStart(3,'0');
+  const id = 'ORD' + now.replace(/-/g, '') + String(DATA.orders.length + 1).padStart(3, '0');
   return {
-    id, customer: document.getElementById('ordName').value,
-    phone: document.getElementById('ordPhone').value,
+    id,
+    customer: document.getElementById('ordName').value.trim(),
+    phone: document.getElementById('ordPhone').value.trim(),
     weddingDate: document.getElementById('ordWeddingDate').value,
     pickupDate: document.getElementById('ordPickupDate').value,
     returnDate: document.getElementById('ordReturnDate').value,
-    hotel: document.getElementById('ordHotel').value,
+    hotel: document.getElementById('ordHotel').value.trim(),
     makeup: document.getElementById('ordMakeup').value,
     photographer: document.getElementById('ordPhotographer').value,
-    items: DATA.selectedItems.map(i => ({cat:i.cat, name:i.name, size:i.selectedSize, price:i.price})),
-    total: parseFloat(document.getElementById('ordTotal').value)||0,
-    paid: parseFloat(document.getElementById('ordPaid').value)||0,
-    deposit: parseFloat(document.getElementById('ordDeposit').value)||0,
-    unpaid: parseFloat(document.getElementById('ordUnpaid').value)||0,
+    items: DATA.selectedItems.map(i => ({ id:i.id, cat:i.cat, subcat:i.subcat, name:i.name, size:i.selectedSize, price:i.price, image:i.image, emoji:i.emoji })),
+    total: parseFloat(document.getElementById('ordTotal').value) || 0,
+    paid: parseFloat(document.getElementById('ordPaid').value) || 0,
+    deposit: parseFloat(document.getElementById('ordDeposit').value) || 0,
+    unpaid: parseFloat(document.getElementById('ordUnpaid').value) || 0,
     payment: document.getElementById('ordPayment').value,
     sales: document.getElementById('ordSales').value,
     channel: document.getElementById('ordChannel').value,
-    status:'', created: now, submitted: ''
+    status: '', created: now, submitted: ''
   };
 }
 
 function saveOrderDraft() {
-  const o = buildOrder();
-  if (!o.customer) return showToast('请填写客户姓名');
-  o.status = '草稿'; o.submitted = '';
-  DATA.orders.push(o); DATA.selectedItems = [];
-  CLOUD.saveLocal();  // 云端同步
-  closeModal('orderModal'); renderRecentOrders(); renderOrderList();
-  showToast('✅ 草稿已保存 · 已同步到云端');
+  const o = buildOrderData();
+  if (!o.customer) { showToast('请填写客户姓名'); return; }
+  o.status = '草稿';
+  DATA.orders.push(o);
+  DATA.selectedItems = [];
+  saveData();
+  closeModal('orderModal');
+  renderRecentOrders(); renderOrderList(); renderRevenue(); renderCalendar();
+  showToast('✅ 草稿已保存');
 }
 
 function submitOrder() {
-  const o = buildOrder();
-  if (!o.customer) return showToast('请填写客户姓名');
-  if (!o.phone) return showToast('请填写联系电话');
-  if (!o.weddingDate) return showToast('请选择婚期');
-  if (o.items.length === 0) return showToast('请至少选择一件礼服');
-  o.status = '已提交'; o.submitted = new Date().toISOString().split('T')[0];
-  DATA.orders.push(o); DATA.selectedItems = [];
-  CLOUD.saveLocal();  // 云端同步
-  closeModal('orderModal'); renderRecentOrders(); renderOrderList();
-  showToast('✅ 订单已提交发布 · 已同步到云端');
+  const o = buildOrderData();
+  if (!o.customer) { showToast('请填写客户姓名'); return; }
+  if (!o.phone) { showToast('请填写联系电话'); return; }
+  if (!o.weddingDate) { showToast('请选择婚期'); return; }
+  if (!o.items.length) { showToast('请至少选择一件礼服'); return; }
+  o.status = '已提交';
+  o.submitted = new Date().toISOString().split('T')[0];
+
+  // Mark inventory items as booked
+  o.items.forEach(item => {
+    const inv = DATA.inventory.find(i => i.id === item.id);
+    if (inv) inv.status = '已预约';
+  });
+
+  DATA.orders.push(o);
+  DATA.selectedItems = [];
+  saveData();
+  closeModal('orderModal');
+  renderRecentOrders(); renderOrderList(); renderRevenue(); renderCalendar(); renderInventory();
+  showToast('✅ 订单已提交发布');
 }
 
 function viewOrder(id) {
   const o = DATA.orders.find(o => o.id === id);
   if (!o) return;
-  const items = o.items.map(i => `${i.cat}·${i.name}（${i.size}）¥${i.price}`).join('\n');
-  const msg = `📋 ${o.id}\n\n👰 ${o.customer}  📞 ${o.phone}\n💒 婚期 ${o.weddingDate}\n📍 ${o.hotel}\n📦 取纱 ${o.pickupDate} → 还纱 ${o.returnDate}\n\n💄 化妆师: ${o.makeup||'未预约'}\n📷 摄影师: ${o.photographer||'未预约'}\n\n👗 服饰:\n${items}\n\n💰 总 ¥${o.total} | 已付 ¥${o.paid} | 押金 ¥${o.deposit} | 尾款 ¥${o.unpaid}\n💳 ${o.payment}\n\n👤 销售: ${o.sales} | 📊 ${o.channel}\n📌 ${o.status}`;
-  alert(msg);
-}
+  const items = (o.items||[]).map(i => `${i.cat}·${i.name}（${i.size||''}）¥${i.price}`).join('\n');
+  const actions = [];
+  if (o.status === '已提交') actions.push('输入"完成"标记已完成', '输入"取消"标记已取消');
+  if (o.status === '草稿') actions.push('输入"编辑"重新编辑');
 
-function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+  const msg = `📋 ${o.id} [${o.status}]\n\n👰 ${o.customer}  📞 ${o.phone}\n💒 婚期 ${o.weddingDate}\n📍 ${o.hotel||'-'}\n📦 取纱 ${o.pickupDate||'-'} → 还纱 ${o.returnDate||'-'}\n\n💄 化妆师: ${o.makeup||'未预约'}\n📷 摄影师: ${o.photographer||'未预约'}\n\n👗 服饰:\n${items}\n\n💰 总 ¥${(o.total||0).toLocaleString()} | 已付 ¥${(o.paid||0).toLocaleString()} | 押金 ¥${(o.deposit||0).toLocaleString()} | 尾款 ¥${(o.unpaid||0).toLocaleString()}\n💳 ${o.payment}\n\n👤 销售: ${o.sales||'未分配'} | 📊 ${o.channel}\n${actions.length ? '\n操作:\n'+actions.join('\n') : ''}`;
+
+  const action = prompt(msg);
+  if (!action) return;
+
+  if (action === '完成' && o.status === '已提交') {
+    o.status = '已完成';
+    // Release inventory
+    (o.items||[]).forEach(item => {
+      const inv = DATA.inventory.find(i => i.id === item.id);
+      if (inv) inv.status = '可租';
+    });
+    saveData();
+    refreshAllViews();
+    showToast('✅ 订单已完成');
+  } else if (action === '取消' && o.status === '已提交') {
+    o.status = '已取消';
+    (o.items||[]).forEach(item => {
+      const inv = DATA.inventory.find(i => i.id === item.id);
+      if (inv) inv.status = '可租';
+    });
+    saveData();
+    refreshAllViews();
+    showToast('⚠️ 订单已取消');
+  } else if (action === '编辑' && o.status === '草稿') {
+    DATA.selectedItems = (o.items||[]).map(i => {
+      const inv = DATA.inventory.find(inv => inv.id === i.id);
+      return inv ? { ...inv, selectedSize: i.size } : i;
+    });
+    DATA.orders = DATA.orders.filter(ord => ord.id !== id);
+    document.getElementById('orderModalTitle').textContent = '✏️ 编辑草稿订单';
+    document.getElementById('ordName').value = o.customer;
+    document.getElementById('ordPhone').value = o.phone;
+    document.getElementById('ordWeddingDate').value = o.weddingDate;
+    document.getElementById('ordPickupDate').value = o.pickupDate;
+    document.getElementById('ordReturnDate').value = o.returnDate;
+    document.getElementById('ordHotel').value = o.hotel;
+    document.getElementById('ordTotal').value = o.total;
+    document.getElementById('ordPaid').value = o.paid;
+    document.getElementById('ordDeposit').value = o.deposit;
+    document.getElementById('ordUnpaid').value = o.unpaid;
+    document.getElementById('ordPayment').value = o.payment;
+    document.getElementById('ordChannel').value = o.channel;
+    populateStaffSelects();
+    document.getElementById('ordMakeup').value = o.makeup;
+    document.getElementById('ordPhotographer').value = o.photographer;
+    document.getElementById('ordSales').value = o.sales;
+    renderSelectedItems();
+    document.getElementById('orderModal').classList.add('active');
+  }
+}
 
 // ============ CALENDAR ============
 function renderCalendar() {
-  document.getElementById('calMonth').textContent = `${DATA.calYear}年${DATA.calMonth+1}月`;
+  document.getElementById('calMonth').textContent = `${DATA.calYear}年${DATA.calMonth + 1}月`;
   const grid = document.getElementById('calGrid');
-  const dow = ['日','一','二','三','四','五','六'];
+  const dow = ['日', '一', '二', '三', '四', '五', '六'];
   let html = dow.map(d => `<div class="dow">${d}</div>`).join('');
+
   const first = new Date(DATA.calYear, DATA.calMonth, 1).getDay();
-  const days = new Date(DATA.calYear, DATA.calMonth+1, 0).getDate();
+  const days = new Date(DATA.calYear, DATA.calMonth + 1, 0).getDate();
   const today = new Date();
-  for (let i=0; i<first; i++) html += '<div class="day empty"></div>';
-  const busy = [2,5,10,15,18,22,28];
-  for (let d=1; d<=days; d++) {
-    const isToday = DATA.calYear===today.getFullYear() && DATA.calMonth===today.getMonth() && d===today.getDate();
-    const isBusy = busy.includes(d);
-    html += `<div class="day ${isToday?'today':''} ${isBusy&&!isToday?'busy':''}" onclick="showToast('${DATA.calYear}/${DATA.calMonth+1}/${d} 档期详情')">${d}</div>`;
+
+  // Collect busy dates from orders
+  const busyDates = new Set();
+  DATA.orders.forEach(o => {
+    if (o.status === '已取消') return;
+    [o.weddingDate, o.pickupDate, o.returnDate].forEach(d => {
+      if (d) {
+        const dt = new Date(d);
+        if (dt.getFullYear() === DATA.calYear && dt.getMonth() === DATA.calMonth) busyDates.add(dt.getDate());
+      }
+    });
+  });
+
+  for (let i = 0; i < first; i++) html += '<div class="day empty"></div>';
+  for (let d = 1; d <= days; d++) {
+    const isToday = DATA.calYear === today.getFullYear() && DATA.calMonth === today.getMonth() && d === today.getDate();
+    const isBusy = busyDates.has(d);
+    html += `<div class="day ${isToday ? 'today' : ''} ${isBusy && !isToday ? 'busy' : ''}" onclick="showCalDayOrders(${d})">${d}</div>`;
   }
   grid.innerHTML = html;
 
-  document.getElementById('scheduleToday').innerHTML = `
-    <div class="list-item"><div class="l-avatar" style="background:#fdf5ed">👰</div><div class="l-info"><div class="l-name">陈雨晴 · 取纱</div><div class="l-meta">梦幻星空主纱 + 龙凤呈祥秀禾 · 李老师</div></div><span class="tag" style="font-size:11px;color:var(--info)">进行中</span></div>
-    <div class="list-item"><div class="l-avatar" style="background:#edf7f0">👰</div><div class="l-info"><div class="l-name">王丽 · 试纱</div><div class="l-meta">水晶之恋主纱 · 赵老师</div></div><span style="font-size:11px;color:var(--text3)">11:00</span></div>
-    <div class="list-item"><div class="l-avatar" style="background:#edf4f8">👰</div><div class="l-info"><div class="l-name">张敏 · 取纱</div><div class="l-meta">香槟色敬酒服 · 周老师</div></div><span style="font-size:11px;color:var(--text3)">14:00</span></div>`;
+  // Show today's orders
+  showCalDayOrders(today.getDate());
+}
+
+function showCalDayOrders(day) {
+  const dateStr = `${DATA.calYear}-${String(DATA.calMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+  const dayOrders = DATA.orders.filter(o => (o.weddingDate === dateStr || o.pickupDate === dateStr || o.returnDate === dateStr) && o.status !== '已取消');
+  const el = document.getElementById('calDayOrders');
+  if (!dayOrders.length) {
+    el.innerHTML = '<div class="empty-state"><div class="e-icon">📅</div><div class="e-text">该日暂无档期</div></div>';
+  } else {
+    el.innerHTML = dayOrders.map(o => {
+      let type = '';
+      if (o.weddingDate === dateStr) type = '💒 婚期';
+      else if (o.pickupDate === dateStr) type = '📦 取纱';
+      else if (o.returnDate === dateStr) type = '↩️ 还纱';
+      return `<div class="list-item" onclick="viewOrder('${o.id}')">
+        <div class="l-avatar" style="background:#fdf5ed">👰</div>
+        <div class="l-info"><div class="l-name">${o.customer} · ${type}</div><div class="l-meta">${(o.items||[]).map(i=>i.name).join('、')||'无'}</div></div>
+        <div class="l-right"><div class="l-amount">¥${(o.total||0).toLocaleString()}</div></div>
+      </div>`;
+    }).join('');
+  }
 }
 
 function changeMonth(d) {
@@ -1421,134 +1489,448 @@ function changeMonth(d) {
 function setInvFilter(f, el) {
   DATA.invFilter = f;
   document.querySelectorAll('#invFilters .chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
+  if (el) el.classList.add('active');
   renderInventory();
 }
 
 function renderInventory() {
   const search = (document.getElementById('invSearch')?.value || '').toLowerCase();
-  let items = DATA.inventory;
+  let items = [...DATA.inventory];
   if (DATA.invFilter !== '全部') items = items.filter(i => i.cat === DATA.invFilter);
-  if (search) items = items.filter(i => i.name.toLowerCase().includes(search));
-  const emoji = { '婚纱':'👰', '秀禾':'🏮', '礼服':'✨', '西装':'🤵', '伴娘服':'👗' };
+  if (search) items = items.filter(i => (i.name||'').toLowerCase().includes(search));
+
+  const colors = ['c1','c2','c3','c4'];
   const grid = document.getElementById('inventoryGrid');
-  grid.innerHTML = items.map(item => `
-    <div class="item-card ${item.status==='已预约'?'booked':''}">
-      <div class="img-box">
-        ${emoji[item.cat]||'👗'}
+  if (!items.length) {
+    grid.innerHTML = '<div class="empty-state"><div class="e-icon">👗</div><div class="e-text">暂无款式，点击"+ 上架新款"添加</div></div>';
+    return;
+  }
+  grid.innerHTML = items.map((item, i) => `
+    <div class="inv-card ${item.status==='已预约'?'booked':''}" onclick="editInventoryItem('${item.id}')">
+      <div class="img-box ${colors[i%4]}">
+        ${item.image ? `<img src="${item.image}" alt="${item.name}" loading="lazy">` : `<span class="img-placeholder">${item.emoji||'👗'}</span>`}
         <span class="badge ${item.status==='可租'?'available':'booked'}">${item.status}</span>
       </div>
       <div class="info">
         <div class="name">${item.name}</div>
-        <div class="meta">${item.brand} · ${item.color}</div>
-        <div class="meta">${item.sizes}</div>
+        <div class="meta">${item.brand||''} · ${item.color||''} · ${item.style||''}</div>
+        <div class="meta">${item.sizes||''}</div>
         <div class="price">¥${item.price}/天</div>
       </div>
     </div>`).join('');
-  if (!items.length) grid.innerHTML = '<div class="empty-state"><div class="e-icon">👗</div><div class="e-text">没有匹配的款式</div></div>';
 }
 
 function renderMakeupList() {
-  document.getElementById('makeupList').innerHTML = DATA.makeup.map(m => `
+  const list = DATA.staff.filter(s => s.role === '化妆师');
+  document.getElementById('makeupList').innerHTML = list.length ? list.map(m => `
     <div class="list-item">
       <div class="l-avatar" style="background:#fdf5ed">💄</div>
-      <div class="l-info"><div class="l-name">${m.name} · ${m.level}</div><div class="l-meta">${m.styles} · ⭐${m.rating}</div></div>
-      <span style="font-size:12px;color:${m.status==='空闲'?'var(--success)':'var(--warning)'}">${m.status}</span>
-    </div>`).join('');
+      <div class="l-info"><div class="l-name">${m.name} · ${m.level}</div><div class="l-meta">${m.styles||''} · 📞 ${m.phone||'-'}</div></div>
+      <span style="font-size:12px;color:var(--primary)">化妆师</span>
+    </div>`).join('') : '<div class="empty-state"><div class="e-icon">💄</div><div class="e-text">暂无化妆师</div></div>';
 }
 
 function renderPhotographerList() {
-  document.getElementById('photographerList').innerHTML = DATA.photographer.map(p => `
+  const list = DATA.staff.filter(s => s.role === '摄影师');
+  document.getElementById('photographerList').innerHTML = list.length ? list.map(p => `
     <div class="list-item">
       <div class="l-avatar" style="background:#edf4f8">📷</div>
-      <div class="l-info"><div class="l-name">${p.name} · ${p.level}</div><div class="l-meta">${p.styles} · ⭐${p.rating}</div></div>
-      <span style="font-size:12px;color:${p.status==='空闲'?'var(--success)':'var(--warning)'}">${p.status}</span>
-    </div>`).join('');
+      <div class="l-info"><div class="l-name">${p.name} · ${p.level}</div><div class="l-meta">${p.styles||''} · 📞 ${p.phone||'-'}</div></div>
+      <span style="font-size:12px;color:var(--info)">摄影师</span>
+    </div>`).join('') : '<div class="empty-state"><div class="e-icon">📷</div><div class="e-text">暂无摄影师</div></div>';
 }
 
 function openInventoryForm() {
-  document.getElementById('inventoryModal').classList.add('active');
+  document.getElementById('invFormTitle').textContent = '👗 上架新款';
+  document.getElementById('invEditId').value = '';
+  document.getElementById('invImgData').value = '';
+  document.getElementById('invImgUpload').querySelector('.img-placeholder').style.display = '';
+  document.getElementById('invImgUpload').querySelector('.img-hint').style.display = '';
+  const existingImg = document.getElementById('invImgUpload').querySelector('img');
+  if (existingImg) existingImg.remove();
+  const existingActions = document.getElementById('invImgUpload').querySelector('.img-actions');
+  if (existingActions) existingActions.remove();
+
+  ['invName','invBrand','invPrice','invSizes','invNote'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('invCat').value = '婚纱';
+  document.getElementById('invSubcat').value = '主纱';
+  document.getElementById('invColor').value = '白色';
+  document.getElementById('invStyle').value = '简约';
+  document.getElementById('invStatus').value = '可租';
+  document.getElementById('invDelBtn').style.display = 'none';
+  document.getElementById('invFormModal').classList.add('active');
+}
+
+function editInventoryItem(id) {
+  const item = DATA.inventory.find(i => i.id === id);
+  if (!item) return;
+
+  document.getElementById('invFormTitle').textContent = '✏️ 编辑款式';
+  document.getElementById('invEditId').value = item.id;
+  document.getElementById('invImgData').value = item.image || '';
+  document.getElementById('invName').value = item.name || '';
+  document.getElementById('invCat').value = item.cat || '婚纱';
+  document.getElementById('invSubcat').value = item.subcat || '主纱';
+  document.getElementById('invBrand').value = item.brand || '';
+  document.getElementById('invColor').value = item.color || '白色';
+  document.getElementById('invStyle').value = item.style || '简约';
+  document.getElementById('invPrice').value = item.price || '';
+  document.getElementById('invSizes').value = item.sizes || '';
+  document.getElementById('invStatus').value = item.status || '可租';
+  document.getElementById('invNote').value = item.note || '';
+  document.getElementById('invDelBtn').style.display = '';
+
+  // Show existing image
+  const uploadArea = document.getElementById('invImgUpload');
+  uploadArea.querySelector('.img-placeholder').style.display = item.image ? 'none' : '';
+  uploadArea.querySelector('.img-hint').style.display = item.image ? 'none' : '';
+  let existingImg = uploadArea.querySelector('img');
+  if (item.image) {
+    if (!existingImg) {
+      existingImg = document.createElement('img');
+      uploadArea.insertBefore(existingImg, uploadArea.querySelector('.img-hint'));
+    }
+    existingImg.src = item.image;
+    existingImg.style.display = '';
+    // Add change/remove buttons
+    let actions = uploadArea.querySelector('.img-actions');
+    if (!actions) {
+      actions = document.createElement('div');
+      actions.className = 'img-actions';
+      uploadArea.appendChild(actions);
+    }
+    actions.innerHTML = '<button class="btn btn-sm btn-outline" onclick="event.stopPropagation();document.getElementById(\'invImgInput\').click()">🔄 更换</button><button class="btn btn-sm btn-outline" style="color:var(--danger)" onclick="event.stopPropagation();removeInvImg()">🗑 删除</button>';
+  } else {
+    if (existingImg) existingImg.style.display = 'none';
+    const actions = uploadArea.querySelector('.img-actions');
+    if (actions) actions.innerHTML = '';
+  }
+
+  document.getElementById('invFormModal').classList.add('active');
+}
+
+function handleInvImgUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { showToast('图片不能超过5MB'); return; }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('invImgData').value = e.target.result;
+    const uploadArea = document.getElementById('invImgUpload');
+    uploadArea.querySelector('.img-placeholder').style.display = 'none';
+    uploadArea.querySelector('.img-hint').style.display = 'none';
+
+    let img = uploadArea.querySelector('img');
+    if (!img) {
+      img = document.createElement('img');
+      uploadArea.insertBefore(img, uploadArea.querySelector('.img-hint'));
+    }
+    img.src = e.target.result;
+    img.style.display = '';
+
+    let actions = uploadArea.querySelector('.img-actions');
+    if (!actions) {
+      actions = document.createElement('div');
+      actions.className = 'img-actions';
+      uploadArea.appendChild(actions);
+    }
+    actions.innerHTML = '<button class="btn btn-sm btn-outline" onclick="event.stopPropagation();document.getElementById(\'invImgInput\').click()">🔄 更换</button><button class="btn btn-sm btn-outline" style="color:var(--danger)" onclick="event.stopPropagation();removeInvImg()">🗑 删除</button>';
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeInvImg() {
+  document.getElementById('invImgData').value = '';
+  const uploadArea = document.getElementById('invImgUpload');
+  uploadArea.querySelector('.img-placeholder').style.display = '';
+  uploadArea.querySelector('.img-hint').style.display = '';
+  const img = uploadArea.querySelector('img');
+  if (img) img.style.display = 'none';
+  const actions = uploadArea.querySelector('.img-actions');
+  if (actions) actions.innerHTML = '';
+}
+
+function saveInventoryItem() {
+  const name = document.getElementById('invName').value.trim();
+  const price = parseFloat(document.getElementById('invPrice').value) || 0;
+  if (!name) { showToast('请填写款式名称'); return; }
+  if (!price) { showToast('请填写租价'); return; }
+
+  const emojiMap = { '婚纱':'👰', '秀禾':'🏮', '礼服':'✨', '西装':'🤵', '伴娘服':'👗' };
+  const cat = document.getElementById('invCat').value;
+
+  const item = {
+    id: document.getElementById('invEditId').value || 'INV' + Date.now(),
+    name,
+    cat,
+    subcat: document.getElementById('invSubcat').value,
+    brand: document.getElementById('invBrand').value.trim(),
+    color: document.getElementById('invColor').value,
+    style: document.getElementById('invStyle').value,
+    price,
+    sizes: document.getElementById('invSizes').value.trim() || 'S:2 M:3 L:2 XL:1',
+    status: document.getElementById('invStatus').value,
+    note: document.getElementById('invNote').value.trim(),
+    image: document.getElementById('invImgData').value,
+    emoji: emojiMap[cat] || '👗',
+  };
+
+  const editId = document.getElementById('invEditId').value;
+  if (editId) {
+    const idx = DATA.inventory.findIndex(i => i.id === editId);
+    if (idx >= 0) DATA.inventory[idx] = item;
+  } else {
+    DATA.inventory.push(item);
+  }
+
+  saveData();
+  closeModal('invFormModal');
+  renderInventory();
+  showToast(editId ? '✅ 款式已更新' : '✅ 新款已上架');
+}
+
+function deleteInventoryItem() {
+  const id = document.getElementById('invEditId').value;
+  if (!id) return;
+  if (!confirm('确定要删除这款吗？此操作不可恢复。')) return;
+  DATA.inventory = DATA.inventory.filter(i => i.id !== id);
+  saveData();
+  closeModal('invFormModal');
+  renderInventory();
+  showToast('🗑 已删除');
+}
+
+// ============ STAFF ============
+function openStaffForm() {
+  document.getElementById('staffModalTitle').textContent = '👥 添加成员';
+  document.getElementById('staffEditId').value = '';
+  ['staffName','staffStyles','staffPhone'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('staffRole').value = '化妆师';
+  document.getElementById('staffLevel').value = '高级';
+  document.getElementById('staffModal').classList.add('active');
+}
+
+function saveStaff() {
+  const name = document.getElementById('staffName').value.trim();
+  if (!name) { showToast('请填写姓名'); return; }
+
+  const member = {
+    id: document.getElementById('staffEditId').value || 'STF' + Date.now(),
+    name,
+    role: document.getElementById('staffRole').value,
+    level: document.getElementById('staffLevel').value,
+    styles: document.getElementById('staffStyles').value.trim(),
+    phone: document.getElementById('staffPhone').value.trim(),
+    perf: 0,
+  };
+
+  const editId = document.getElementById('staffEditId').value;
+  if (editId) {
+    const idx = DATA.staff.findIndex(s => s.id === editId);
+    if (idx >= 0) DATA.staff[idx] = member;
+  } else {
+    DATA.staff.push(member);
+  }
+
+  saveData();
+  closeModal('staffModal');
+  renderMakeupList(); renderPhotographerList(); renderSalesRanking();
+  populateStaffSelects();
+  showToast('✅ 成员已保存');
+}
+
+// ============ SHOP ============
+function openShopForm() {
+  document.getElementById('shopName').value = DATA.shop.name || '';
+  document.getElementById('shopPhone').value = DATA.shop.phone || '';
+  document.getElementById('shopAddr').value = DATA.shop.address || '';
+  document.getElementById('shopModal').classList.add('active');
+}
+
+function saveShop() {
+  DATA.shop = {
+    name: document.getElementById('shopName').value.trim(),
+    phone: document.getElementById('shopPhone').value.trim(),
+    address: document.getElementById('shopAddr').value.trim(),
+  };
+  saveData();
+  closeModal('shopModal');
+  document.getElementById('shopInfoMeta').textContent = DATA.shop.name || '点击设置店铺信息';
+  showToast('✅ 店铺信息已保存');
 }
 
 // ============ FINANCE ============
+function renderFinanceRevenue() {
+  const total = DATA.orders.filter(o => o.status !== '草稿' && o.status !== '已取消').reduce((s,o) => s + (o.total||0), 0);
+  const unpaid = DATA.orders.filter(o => o.unpaid > 0 && o.status !== '已取消').reduce((s,o) => s + o.unpaid, 0);
+  const deposit = DATA.orders.filter(o => o.status !== '草稿' && o.status !== '已取消').reduce((s,o) => s + (o.deposit||0), 0);
+
+  document.getElementById('financeRevenue').innerHTML = `
+    <div class="revenue-card"><div class="r-label">累计营收</div><div class="r-value">¥${total.toLocaleString()}</div></div>
+    <div class="revenue-card"><div class="r-label">待收尾款</div><div class="r-value" style="color:var(--danger)">¥${unpaid.toLocaleString()}</div></div>
+    <div class="revenue-card"><div class="r-label">押金池</div><div class="r-value">¥${deposit.toLocaleString()}</div></div>`;
+}
+
 function renderFinanceList() {
-  const records = DATA.orders.flatMap(o => [
-    o.paid>0?{id:o.id, customer:o.customer, type:'已付', amount:o.paid, method:o.payment, time:o.submitted||o.created}:null,
-    o.deposit>0?{id:o.id, customer:o.customer, type:'押金', amount:o.deposit, method:o.payment, time:o.submitted||o.created}:null,
-    o.unpaid>0?{id:o.id, customer:o.customer, type:'待收尾款', amount:o.unpaid, method:'-', time:'待收'}:null,
-  ]).filter(Boolean);
-  document.getElementById('financeList').innerHTML = records.map(r => `
+  const records = [];
+  DATA.orders.forEach(o => {
+    if (o.paid > 0) records.push({ id:o.id, customer:o.customer, type:'已收款', amount:o.paid, method:o.payment, time:o.submitted||o.created });
+    if (o.unpaid > 0 && o.status !== '已取消') records.push({ id:o.id, customer:o.customer, type:'待收尾款', amount:o.unpaid, method:'-', time:'待收' });
+    if (o.deposit > 0) records.push({ id:o.id, customer:o.customer, type:'押金', amount:o.deposit, method:o.payment, time:o.submitted||o.created });
+  });
+
+  document.getElementById('financeList').innerHTML = records.length ? records.map(r => `
     <div class="list-item">
       <div class="l-avatar" style="background:${r.type==='待收尾款'?'#fef0ee':'#edf7f0'}">${r.type==='待收尾款'?'⚠️':'💰'}</div>
       <div class="l-info"><div class="l-name">${r.customer} · ${r.type}</div><div class="l-meta">${r.id} · ${r.method} · ${r.time}</div></div>
-      <div class="l-amount" style="color:${r.type==='待收尾款'?'var(--danger)':'var(--text)'}">¥${r.amount}</div>
-    </div>`).join('');
+      <div class="l-amount" style="color:${r.type==='待收尾款'?'var(--danger)':'var(--text)'}">¥${r.amount.toLocaleString()}</div>
+    </div>`).join('') : '<div class="empty-state"><div class="e-icon">💰</div><div class="e-text">暂无收款记录</div></div>';
 }
 
 function renderSalesRanking() {
-  document.getElementById('salesRanking').innerHTML = DATA.staff.map((s,i) => `
+  const perf = {};
+  DATA.orders.forEach(o => {
+    if (!o.sales || o.status === '已取消') return;
+    const key = o.sales.split('（')[0];
+    perf[key] = (perf[key] || 0) + (o.total||0);
+  });
+  const sorted = Object.entries(perf).sort((a,b) => b[1] - a[1]);
+  const medals = ['🥇','🥈','🥉'];
+
+  document.getElementById('salesRanking').innerHTML = sorted.length ? sorted.map(([name,amount], i) => `
     <div class="list-item">
-      <div class="l-avatar" style="background:${i===0?'#fdf5ed':'#faf6f0'}">${['🥇','🥈','🥉'][i]||'👤'}</div>
-      <div class="l-info"><div class="l-name">${s.name} · ${s.role}</div><div class="l-meta">${Math.floor(s.perf/5000)}单</div></div>
-      <div class="l-amount">¥${s.perf}</div>
-    </div>`).join('');
+      <div class="l-avatar" style="background:${i<3?'#fdf5ed':'#faf6f0'}">${medals[i]||'👤'}</div>
+      <div class="l-info"><div class="l-name">${name}</div><div class="l-meta">${DATA.orders.filter(o=>o.sales&&o.sales.startsWith(name)&&o.status!=='已取消').length} 单</div></div>
+      <div class="l-amount">¥${amount.toLocaleString()}</div>
+    </div>`).join('') : '<div class="empty-state"><div class="e-icon">🏆</div><div class="e-text">暂无销售数据</div></div>';
 }
 
-// ============ TOAST ============
+// ============ DATA IMPORT/EXPORT ============
+function exportAllData() {
+  const data = {
+    orders: DATA.orders,
+    inventory: DATA.inventory,
+    staff: DATA.staff,
+    channels: DATA.channels,
+    shop: DATA.shop,
+    exportedAt: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '云婚纱管家_数据备份_' + new Date().toISOString().split('T')[0] + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('📤 数据已导出');
+}
+
+function handleDataImport(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.orders && !data.inventory && !data.staff) { showToast('无效的数据文件'); return; }
+      if (!confirm(`即将导入数据：\n- ${(data.orders||[]).length} 笔订单\n- ${(data.inventory||[]).length} 款礼服\n- ${(data.staff||[]).length} 名成员\n\n这将覆盖当前所有数据，确定继续？`)) return;
+
+      DATA.orders = data.orders || [];
+      DATA.inventory = data.inventory || [];
+      DATA.staff = data.staff || [];
+      DATA.channels = data.channels || DATA.channels;
+      DATA.shop = data.shop || { name:'', phone:'', address:'' };
+      saveData();
+      closeModal('dataModal');
+      refreshAllViews();
+      showToast('📥 数据导入成功');
+    } catch(err) { showToast('文件解析失败，请检查格式'); }
+  };
+  reader.readAsText(file);
+}
+
+// ============ UTILS ============
+function parseSizes(str) {
+  if (!str) return [];
+  return str.split(/\s+/).map(s => {
+    const [size, stock] = s.split(':');
+    return { size, stock: parseInt(stock) || 0 };
+  });
+}
+
+function closeModal(id) {
+  document.getElementById(id)?.classList.remove('active');
+}
+
 function showToast(msg) {
   const t = document.createElement('div');
   t.className = 'toast'; t.textContent = msg;
   document.body.appendChild(t);
-  setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity 0.3s'; setTimeout(() => t.remove(),300); }, 1800);
+  setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; setTimeout(() => t.remove(), 300); }, 1800);
 }
 
-// ============ PWA INSTALL ============
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.getElementById('installBtn').style.display = '';
-});
-
-function installPWA() {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+function addToHomeScreen() {
+  if (window.deferredPrompt) {
+    window.deferredPrompt.prompt();
+    window.deferredPrompt.userChoice.then(() => { window.deferredPrompt = null; });
   } else {
-    showToast('📲 请通过浏览器菜单添加到桌面');
+    showToast('📲 iPhone: 点击分享→添加到主屏幕\nAndroid: 菜单→添加到桌面');
   }
 }
 
+function refreshAllViews() {
+  renderRevenue(); renderRecentOrders(); renderOrderList();
+  renderCalendar(); renderInventory(); renderMakeupList(); renderPhotographerList();
+  renderFinanceRevenue(); renderFinanceList(); renderSalesRanking();
+}
+
 // ============ INIT ============
+loadData();
+
+// PWA install
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  window.deferredPrompt = e;
+});
+
+// Service Worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js').catch(() => {});
 }
 
-// 启动云端同步
-CLOUD.startAutoSync();
+// Modal click-outside close
+document.querySelectorAll('.modal-overlay,.dress-panel-overlay,.detail-overlay').forEach(o => {
+  o.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('active'); });
+});
 
+// Drag & drop for image upload
+const invUploadArea = document.getElementById('invImgUpload');
+if (invUploadArea) {
+  invUploadArea.addEventListener('dragover', (e) => { e.preventDefault(); invUploadArea.classList.add('dragover'); });
+  invUploadArea.addEventListener('dragleave', () => { invUploadArea.classList.remove('dragover'); });
+  invUploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    invUploadArea.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      document.getElementById('invImgInput').files = e.dataTransfer.files;
+      handleInvImgUpload({ target: { files: [file] } });
+    }
+  });
+}
+
+// Initial render
+renderRevenue();
 renderRecentOrders();
+renderOrderList();
 renderCalendar();
 renderInventory();
 renderMakeupList();
 renderPhotographerList();
+renderFinanceRevenue();
 renderFinanceList();
 renderSalesRanking();
-renderOrderList();
-
-// Scroll detection for nav bar
-window.addEventListener('scroll', () => {
-  document.getElementById('navBar').classList.toggle('scrolled', window.scrollY > 10);
-});
-
-// Modal click outside
-document.querySelectorAll('.modal-overlay').forEach(o => {
-  o.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('active'); });
-});
-
-document.querySelectorAll('.modal-close').forEach(btn => {
-  btn.addEventListener('click', function() { this.closest('.modal-overlay').classList.remove('active'); });
-});
 </script>
 </body>
 </html>
