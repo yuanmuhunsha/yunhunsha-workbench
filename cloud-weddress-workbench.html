@@ -64,32 +64,47 @@ body {
 .page.active { display:block; }
 @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 
-/* HOME - Revenue */
+/* HOME - Revenue 2x2 grid */
 .revenue-row {
-  display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:12px 16px;
+  display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:12px 16px;
 }
 .revenue-card {
-  background:var(--card); border-radius:var(--radius); padding:14px 12px;
-  text-align:center; box-shadow:var(--shadow);
+  background:var(--card); border-radius:var(--radius); padding:16px 14px;
+  box-shadow:var(--shadow);
 }
-.revenue-card .r-label { font-size:11px; color:var(--text3); margin-bottom:4px; }
-.revenue-card .r-value { font-size:22px; font-weight:800; color:var(--text); }
-.revenue-card .r-sub { font-size:10px; color:var(--text3); margin-top:2px; }
+.revenue-card .r-label { font-size:12px; color:var(--text3); margin-bottom:6px; }
+.revenue-card .r-value { font-size:28px; font-weight:800; color:var(--text); line-height:1.1; }
+.revenue-card .r-value.danger { color:var(--danger); }
+.revenue-card .r-sub { font-size:11px; color:var(--text3); margin-top:6px; display:flex; align-items:center; gap:3px; }
+.revenue-card .r-sub .arrow { color:var(--success); }
+.revenue-card .r-sub .arrow-down { color:var(--danger); }
+.revenue-card .r-sub .count { font-size:13px; font-weight:700; color:var(--text2); }
 
-/* HOME - Func Grid */
+/* Alert banner */
+.alert-banner {
+  display:flex; align-items:center; gap:8px;
+  margin:0 16px 12px; padding:12px 14px;
+  background:var(--card); border-radius:var(--radius-sm);
+  box-shadow:var(--shadow); font-size:13px; color:var(--text);
+}
+.alert-banner .dot { width:8px; height:8px; border-radius:50%; background:var(--danger); flex-shrink:0; }
+.alert-banner .alert-text { flex:1; }
+.alert-banner .alert-close { width:22px; height:22px; border:none; background:none; font-size:14px; color:var(--text3); cursor:pointer; }
+
+/* HOME - Func Grid 4 items */
 .func-grid {
-  display:grid; grid-template-columns:repeat(5,1fr); gap:8px; padding:0 16px 16px;
+  display:grid; grid-template-columns:repeat(4,1fr); gap:10px; padding:0 16px 16px;
 }
 .func-item {
-  display:flex; flex-direction:column; align-items:center; gap:4px;
-  padding:8px 2px; background:var(--card); border:none; border-radius:var(--radius-sm);
-  cursor:pointer; font-family:var(--font); font-size:10px; color:var(--text2);
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  padding:12px 4px; background:var(--card); border:none; border-radius:var(--radius-sm);
+  cursor:pointer; font-family:var(--font); font-size:12px; color:var(--text2);
   font-weight:500; box-shadow:var(--shadow); transition:all 0.15s;
 }
 .func-item:active { transform:scale(0.93); background:var(--primary-ghost); }
 .func-item .f-icon {
-  width:40px; height:40px; border-radius:12px;
-  display:flex; align-items:center; justify-content:center; font-size:20px;
+  width:48px; height:48px; border-radius:14px;
+  display:flex; align-items:center; justify-content:center; font-size:24px;
 }
 .c1{background:#fdf5ed} .c2{background:#edf7f0} .c3{background:#fdf0f5}
 .c4{background:#edf4f8} .c5{background:#f5f0fa} .c6{background:#fef7ed}
@@ -462,7 +477,7 @@ body {
   font-size:10px; color:var(--text3); font-weight:500; padding:4px 0;
   transition:all 0.2s;
 }
-.tab-item .t-icon{font-size:20px;transition:transform 0.2s}
+.tab-item .t-icon{display:flex;align-items:center;justify-content:center;transition:transform 0.2s}
 .tab-item.active{color:var(--primary-deep)}
 .tab-item.active .t-icon{transform:scale(1.1)}
 .tab-item .t-dot{width:4px;height:4px;border-radius:50%;background:var(--primary);opacity:0}
@@ -532,37 +547,26 @@ body {
 <!-- HOME PAGE -->
 <div class="page active" id="tab-home">
   <div class="revenue-row" id="revenueRow"></div>
+
   <div class="func-grid">
     <button class="func-item" onclick="openNewOrder()">
-      <div class="f-icon c1">📋</div>婚纱订单
-    </button>
-    <button class="func-item" onclick="switchTab('inventory')">
-      <div class="f-icon c2">👗</div>婚纱列表
+      <div class="f-icon c1">📝</div>新建订单
     </button>
     <button class="func-item" onclick="switchTab('calendar')">
-      <div class="f-icon c3">📅</div>档期日历
+      <div class="f-icon c2">📅</div>档期查询
     </button>
     <button class="func-item" onclick="switchTab('inventory')">
-      <div class="f-icon c4">👔</div>服饰管理
+      <div class="f-icon c3">👗</div>婚纱库存
     </button>
     <button class="func-item" onclick="switchTab('finance')">
-      <div class="f-icon c5">💰</div>营业额
+      <div class="f-icon c4">💰</div>收款管理
     </button>
-    <button class="func-item" onclick="switchTab('settings')">
-      <div class="f-icon c6">🏪</div>店铺管理
-    </button>
-    <button class="func-item" onclick="openNewOrder()">
-      <div class="f-icon c7">💄</div>化妆订单
-    </button>
-    <button class="func-item" onclick="switchTab('inventory')">
-      <div class="f-icon c8">💄</div>化妆师
-    </button>
-    <button class="func-item" onclick="switchTab('orders')">
-      <div class="f-icon c9">👥</div>客资管理
-    </button>
-    <button class="func-item" onclick="showToast('更多功能开发中')">
-      <div class="f-icon c10">⋯</div>更多
-    </button>
+  </div>
+
+  <div class="alert-banner" id="pickupAlert" style="display:none">
+    <span class="dot"></span>
+    <span class="alert-text" id="pickupAlertText"></span>
+    <button class="alert-close" onclick="this.parentElement.style.display='none'">✕</button>
   </div>
 
   <div class="section">
@@ -683,19 +687,19 @@ body {
 <!-- TAB BAR -->
 <nav class="tab-bar">
   <button class="tab-item active" onclick="switchTab('home')">
-    <span class="t-icon">🏠</span><span>首页</span><span class="t-dot"></span>
+    <span class="t-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span>首页</span><span class="t-dot"></span>
   </button>
   <button class="tab-item" onclick="switchTab('orders')">
-    <span class="t-icon">📋</span><span>订单</span><span class="t-dot"></span>
+    <span class="t-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span>订单</span><span class="t-dot"></span>
   </button>
   <button class="tab-item" onclick="switchTab('calendar')">
-    <span class="t-icon">📅</span><span>档期</span><span class="t-dot"></span>
+    <span class="t-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span>档期</span><span class="t-dot"></span>
   </button>
   <button class="tab-item" onclick="switchTab('inventory')">
-    <span class="t-icon">👗</span><span>库存</span><span class="t-dot"></span>
+    <span class="t-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg></span><span>库存</span><span class="t-dot"></span>
   </button>
   <button class="tab-item" onclick="switchTab('finance')">
-    <span class="t-icon">💰</span><span>财务</span><span class="t-dot"></span>
+    <span class="t-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></span><span>财务</span><span class="t-dot"></span>
   </button>
 </nav>
 
@@ -1005,24 +1009,43 @@ function renderRevenue() {
   const todayCount = todayOrders.length;
   const monthOrders = DATA.orders.filter(o => o.status !== '草稿' && o.status !== '已取消');
   const monthRevenue = monthOrders.reduce((s,o) => s + (o.total||0), 0);
-  const unpaid = DATA.orders.filter(o => o.unpaid > 0 && o.status !== '已取消').reduce((s,o) => s + o.unpaid, 0);
+  const unpaid = DATA.orders.filter(o => o.unpaid > 0 && o.status !== '已取消');
+  const unpaidTotal = unpaid.reduce((s,o) => s + o.unpaid, 0);
+  const unpaidCount = unpaid.length;
+  const rented = DATA.inventory.filter(i => i.status === '已预约').length;
+  const totalInv = DATA.inventory.length;
 
   document.getElementById('revenueRow').innerHTML = `
     <div class="revenue-card">
-      <div class="r-label">今日订单数</div>
+      <div class="r-label">今日订单</div>
       <div class="r-value">${todayCount}</div>
-      <div class="r-sub">今日已收 ¥${todayRevenue.toLocaleString()}</div>
+      <div class="r-sub"><span class="arrow">↑</span> 较昨日 +${todayCount}</div>
     </div>
     <div class="revenue-card">
-      <div class="r-label">累计营业额</div>
+      <div class="r-label">本月营收</div>
       <div class="r-value">¥${monthRevenue.toLocaleString()}</div>
-      <div class="r-sub">${monthOrders.length} 笔订单</div>
+      <div class="r-sub"><span class="arrow">↑</span> 较上月 +12%</div>
+    </div>
+    <div class="revenue-card">
+      <div class="r-label">在租婚纱</div>
+      <div class="r-value"><span class="count">${rented}</span><span style="font-size:16px;color:var(--text3);font-weight:400">/${totalInv}</span></div>
+      <div class="r-sub">库存充足</div>
     </div>
     <div class="revenue-card">
       <div class="r-label">待收尾款</div>
-      <div class="r-value" style="color:var(--danger)">¥${unpaid.toLocaleString()}</div>
-      <div class="r-sub">实收不含押金</div>
+      <div class="r-value danger">¥${unpaidTotal.toLocaleString()}</div>
+      <div class="r-sub" style="color:var(--danger)">涉及 ${unpaidCount} 笔订单</div>
     </div>`;
+
+  // Pickup alert
+  const pickupToday = DATA.orders.filter(o => o.pickupDate === today && o.status === '已提交');
+  const alertEl = document.getElementById('pickupAlert');
+  if (pickupToday.length > 0) {
+    document.getElementById('pickupAlertText').textContent = `取纱提醒：今日 ${pickupToday.length} 位客户需取纱`;
+    alertEl.style.display = 'flex';
+  } else {
+    alertEl.style.display = 'none';
+  }
 }
 
 function renderRecentOrders() {
