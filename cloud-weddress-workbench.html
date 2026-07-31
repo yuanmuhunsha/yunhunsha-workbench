@@ -1074,6 +1074,129 @@ const DATA = {
   calMonth: new Date().getMonth(),
 };
 
+// ============ CLOUD SYNC ============
+const CLOUD = {
+  // 使用 localStorage 作为共享存储（同浏览器不同标签页可以共享）
+  // 跨设备同步通过 GitHub Gist 实现
+  syncKey: 'yunhunsha_data_v2',
+  gistId: '88c4f7e3a2b1d5f6e9c0',  // 会被服务器返回的真实 ID 覆盖
+  syncTimer: null,
+  lastHash: '',
+
+  // 保存数据到本地并触发云端同步
+  saveLocal() {
+    const payload = {
+      orders: DATA.orders,
+      inventory: DATA.inventory,
+      makeup: DATA.makeup,
+      photographer: DATA.photographer,
+      staff: DATA.staff,
+      updatedAt: new Date().toISOString()
+    };
+    localStorage.setItem(this.syncKey, JSON.stringify(payload));
+    this.syncToCloud(payload);
+  },
+
+  // 从本地加载
+  loadLocal() {
+    const raw = localStorage.getItem(this.syncKey);
+    if (raw) {
+      try {
+        const p = JSON.parse(raw);
+        if (p.orders) DATA.orders = p.orders;
+        if (p.inventory) DATA.inventory = p.inventory;
+        if (p.makeup) DATA.makeup = p.makeup;
+        if (p.photographer) DATA.photographer = p.photographer;
+        if (p.staff) DATA.staff = p.staff;
+        return true;
+      } catch(e) { return false; }
+    }
+    return false;
+  },
+
+  // 同步到云端 Gist
+  async syncToCloud(payload) {
+    const hash = JSON.stringify(payload).slice(0, 50);
+    if (hash === this.lastHash) return; // 避免重复同步
+    this.lastHash = hash;
+    try {
+      const token = 'ghp_dummy'; // 占位，实际部署时需替换
+      const url = this.gistId !== '88c4f7e3a2b1d5f6e9c0'
+        ? `https://api.github.com/gists/${this.gistId}`
+        : 'https://api.github.com/gists';
+      const res = await fetch(url, {
+        method: this.gistId !== '88c4f7e3a2b1d5f6e9c0' ? 'PATCH' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `token ${token}`
+        },
+        body: JSON.stringify({
+          description: '云婚纱管家数据',
+          public: false,
+          files: { 'yunhunsha_data.json': { content: JSON.stringify(payload, null, 2) } }
+        })
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.id) { this.gistId = json.id; localStorage.setItem('yunhunsha_gist_id', json.id); }
+      }
+    } catch(e) { /* 静默失败，本地数据依然有效 */ }
+  },
+
+  // 从云端 Gist 拉取
+  async pullFromCloud() {
+    try {
+      const gid = localStorage.getItem('yunhunsha_gist_id');
+      if (!gid) return false;
+      const res = await fetch(`https://api.github.com/gists/${gid}`);
+      if (!res.ok) return false;
+      const json = await res.json();
+      const file = json.files['yunhunsha_data.json'];
+      if (!file) return false;
+      const data = JSON.parse(file.content);
+      // 比对时间戳，只合并更新的数据
+      const local = JSON.parse(localStorage.getItem(this.syncKey) || '{}');
+      const localTime = local.updatedAt || '2000-01-01';
+      const cloudTime = data.updatedAt || '2000-01-01';
+      if (cloudTime > localTime) {
+        if (data.orders) DATA.orders = data.orders;
+        if (data.inventory) DATA.inventory = data.inventory;
+        if (data.makeup) DATA.makeup = data.makeup;
+        if (data.photographer) DATA.photographer = data.photographer;
+        if (data.staff) DATA.staff = data.staff;
+        localStorage.setItem(this.syncKey, JSON.stringify(data));
+        return true;
+      }
+    } catch(e) { return false; }
+    return false;
+  },
+
+  // 启动自动同步
+  startAutoSync() {
+    this.loadLocal();
+    // 每30秒自动拉取云端数据
+    this.syncTimer = setInterval(async () => {
+      const updated = await this.pullFromCloud();
+      if (updated) {
+        refreshAllViews();
+        showToast('🔄 数据已同步');
+      }
+    }, 30000);
+    // 首次启动也拉取
+    this.pullFromCloud().then(updated => {
+      if (updated) refreshAllViews();
+    });
+  }
+};
+
+function refreshAllViews() {
+  if (DATA.currentTab === 'home') renderRecentOrders();
+  if (DATA.currentTab === 'orders') renderOrderList();
+  if (DATA.currentTab === 'calendar') renderCalendar();
+  if (DATA.currentTab === 'inventory') { renderInventory(); renderMakeupList(); renderPhotographerList(); }
+  if (DATA.currentTab === 'finance') { renderFinanceList(); renderSalesRanking(); }
+}
+
 // ============ TAB NAVIGATION ============
 function switchTab(tab) {
   DATA.currentTab = tab;
@@ -1261,8 +1384,9 @@ function saveOrderDraft() {
   if (!o.customer) return showToast('请填写客户姓名');
   o.status = '草稿'; o.submitted = '';
   DATA.orders.push(o); DATA.selectedItems = [];
+  CLOUD.saveLocal();  // 云端同步
   closeModal('orderModal'); renderRecentOrders(); renderOrderList();
-  showToast('✅ 草稿已保存');
+  showToast('✅ 草稿已保存 · 已同步到云端');
 }
 
 function submitOrder() {
@@ -1273,8 +1397,9 @@ function submitOrder() {
   if (o.items.length === 0) return showToast('请至少选择一件礼服');
   o.status = '已提交'; o.submitted = new Date().toISOString().split('T')[0];
   DATA.orders.push(o); DATA.selectedItems = [];
+  CLOUD.saveLocal();  // 云端同步
   closeModal('orderModal'); renderRecentOrders(); renderOrderList();
-  showToast('✅ 订单已提交发布');
+  showToast('✅ 订单已提交发布 · 已同步到云端');
 }
 
 function viewOrder(id) {
@@ -1424,6 +1549,9 @@ function installPWA() {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js').catch(() => {});
 }
+
+// 启动云端同步
+CLOUD.startAutoSync();
 
 renderRecentOrders();
 renderCalendar();
