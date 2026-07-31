@@ -1034,37 +1034,11 @@ body {
 <script>
 // ============ DATA ============
 const DATA = {
-  orders: [
-    { id:'ORD202607001', customer:'陈雨晴', phone:'138****6789', weddingDate:'2026-08-15', pickupDate:'2026-08-13', returnDate:'2026-08-17', hotel:'合肥洲际酒店', makeup:'李老师', photographer:'张摄影师', items:[{cat:'婚纱',name:'梦幻星空主纱',size:'M',price:2800},{cat:'秀禾',name:'龙凤呈祥秀禾',size:'L',price:1800},{cat:'礼服',name:'星空蓝晚礼服',size:'M',price:1200}], total:5800, paid:3000, deposit:2000, unpaid:2800, payment:'微信支付', sales:'小王', channel:'小红书', status:'已提交', created:'2026-07-20', submitted:'2026-07-21' },
-    { id:'ORD202607002', customer:'王丽', phone:'139****2345', weddingDate:'2026-08-22', pickupDate:'2026-08-20', returnDate:'2026-08-24', hotel:'合肥香格里拉', makeup:'赵老师', photographer:'', items:[{cat:'婚纱',name:'水晶之恋主纱',size:'S',price:3200},{cat:'西装',name:'经典黑色西装',size:'L',price:800}], total:4000, paid:4000, deposit:1500, unpaid:0, payment:'支付宝', sales:'小李', channel:'抖音', status:'已完成', created:'2026-07-15', submitted:'2026-07-16' },
-    { id:'ORD202607003', customer:'张敏', phone:'137****8901', weddingDate:'2026-09-01', pickupDate:'2026-08-30', returnDate:'2026-09-03', hotel:'合肥万达文华', makeup:'', photographer:'王摄影师', items:[{cat:'礼服',name:'香槟色敬酒服',size:'L',price:900},{cat:'伴娘服',name:'粉色伴娘裙',size:'M',price:500},{cat:'伴娘服',name:'粉色伴娘裙',size:'M',price:500}], total:1900, paid:1000, deposit:1000, unpaid:900, payment:'信用卡', sales:'小王', channel:'朋友推荐', status:'草稿', created:'2026-07-28', submitted:'' },
-    { id:'ORD202607004', customer:'李芳', phone:'136****4567', weddingDate:'2026-09-10', pickupDate:'2026-09-08', returnDate:'2026-09-12', hotel:'合肥希尔顿', makeup:'李老师', photographer:'张摄影师', items:[{cat:'婚纱',name:'花仙子轻纱',size:'M',price:2200},{cat:'秀禾',name:'金玉满堂秀禾',size:'M',price:2200}], total:4400, paid:2200, deposit:2000, unpaid:2200, payment:'微信支付', sales:'小李', channel:'异业合作', status:'已提交', created:'2026-07-30', submitted:'2026-07-30' },
-  ],
-  inventory: [
-    { id:'W001', cat:'婚纱', name:'梦幻星空主纱', brand:'Vera Wang', color:'白色', style:'宫廷', sizes:'S:1 M:2 L:1', price:2800, status:'可租' },
-    { id:'W002', cat:'婚纱', name:'水晶之恋主纱', brand:'Pronovias', color:'香槟色', style:'简约', sizes:'S:1 M:1 L:2', price:3200, status:'可租' },
-    { id:'W003', cat:'婚纱', name:'花仙子轻纱', brand:'Rosa Clara', color:'白色', style:'森系', sizes:'S:2 M:1', price:2200, status:'可租' },
-    { id:'X001', cat:'秀禾', name:'龙凤呈祥秀禾', brand:'中式定制', color:'红色', style:'中式', sizes:'S:1 M:2 L:2', price:1800, status:'可租' },
-    { id:'X002', cat:'秀禾', name:'金玉满堂秀禾', brand:'中式定制', color:'红色', style:'中式', sizes:'M:1 L:1', price:2200, status:'已预约' },
-    { id:'G001', cat:'礼服', name:'星空蓝晚礼服', brand:'Elie Saab', color:'蓝色', style:'欧美', sizes:'S:1 M:2 L:1', price:1200, status:'可租' },
-    { id:'G002', cat:'礼服', name:'香槟色敬酒服', brand:'设计师款', color:'香槟色', style:'简约', sizes:'S:1 M:1 L:1', price:900, status:'可租' },
-    { id:'S001', cat:'西装', name:'经典黑色西装', brand:'Armani', color:'黑色', style:'简约', sizes:'S:1 M:2 L:2', price:800, status:'可租' },
-    { id:'B001', cat:'伴娘服', name:'粉色伴娘裙', brand:'国内品牌', color:'粉色', style:'简约', sizes:'S:2 M:3 L:2', price:500, status:'可租' },
-  ],
-  makeup: [
-    { id:'M001', name:'李老师', level:'首席', styles:'宫廷风·中式', rating:4.9, status:'空闲' },
-    { id:'M002', name:'赵老师', level:'高级', styles:'韩式·简约', rating:4.8, status:'工作中' },
-    { id:'M003', name:'周老师', level:'中级', styles:'森系·日系', rating:4.7, status:'空闲' },
-  ],
-  photographer: [
-    { id:'P001', name:'张摄影师', level:'首席', styles:'纪实·大片', rating:4.9, status:'空闲' },
-    { id:'P002', name:'王摄影师', level:'高级', styles:'韩式·唯美', rating:4.8, status:'工作中' },
-  ],
-  staff: [
-    { name:'小王', role:'销售顾问', perf:28500 },
-    { name:'小李', role:'销售顾问', perf:22000 },
-    { name:'小陈', role:'店长', perf:68000 },
-  ],
+  orders: [],
+  inventory: [],
+  makeup: [],
+  photographer: [],
+  staff: [],
   selectedItems: [],
   currentTab: 'home',
   orderFilter: 'all',
